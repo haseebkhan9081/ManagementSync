@@ -1,0 +1,149 @@
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id      Int     @id @default(autoincrement())
+  clerkId String  @unique
+  admin   Boolean
+  teacher Boolean
+  visitor Boolean
+}
+
+// schema.prisma
+
+// Define the Student model
+model Average{
+  Average Float
+student Student @relation(fields: [studentId],references: [id])
+studentId Int
+class Class @relation(fields: [classId],references: [id])   
+classId Int
+@@unique([studentId,classId])
+}
+model Student {
+  id         Int    @id @default(autoincrement())
+  Name       String
+  age        String
+  imageUrl   String
+  fatherName String
+  Contact    String
+  Address    String
+  ReliveCounter Int?
+  ReliveMonth Int?
+  DeActive Boolean?
+   
+  // Add more fields as needed
+
+  // Define relationships
+  classes     Class[]
+  attendances Attendance[]
+  grades      Grade[]
+  Average    Average[]
+}
+
+// Define the Teacher model
+model Teacher {
+  id                 Int                 @id @default(autoincrement())
+  firstName          String
+  lastName           String 
+  clerkId            String              @unique  
+  imageUrl           String
+  email  String ?
+  // Add more fields as needed
+  // Define relationships
+  teacherAttendances TeacherAttendance[]
+
+  classes Class[]
+}
+
+model TeacherAttendance {
+  id        Int      @id @default(autoincrement())
+  isPresent Boolean
+  isAbsent Boolean
+  clerkid  String   
+  Arrival   String
+  departure String
+  teacher   Teacher  @relation(fields: [teacherId], references: [id])
+  teacherId Int
+  date String
+@@unique([date,clerkid])
+}
+
+// Define the Class model
+model Class {
+  id        Int     @id @default(autoincrement())
+  name      String
+  subject   String
+  startTime String?
+  endTime   String?
+
+  // Add more fields as needed
+
+  // Define relationships
+  students   Student[]
+  teachers   Teacher      @relation(fields: [teacherid], references: [id])
+  teacherid  Int
+  attendence Attendance[]
+  Grade      Grade[]
+  Average   Average[]
+
+  // Ensure uniqueness based on a combination of subject and class name
+  @@unique([subject, name])
+}
+
+// Define the Attendance model
+model Attendance {
+  id      Int     @id @default(autoincrement())
+  date    String?
+  present Boolean
+  absent  Boolean
+  leave   Boolean
+  topic   String  @db.LongText()
+  reason  String? @db.LongText()
+  fine Int?
+  due Boolean?
+  payed Boolean ?
+  AttendancePercent Int ?
+  countOfAbsents Int?
+  countofLeaves Int ?
+  countofPresent Int?
+  countOfAbsentsYear Int?
+  countofLeavesYear Int ?
+  countofPresentYear Int?
+  // 'Present', 'Absent', etc.
+  // Add more fields as needed
+
+  // Define relationships
+  student   Student @relation(fields: [studentId], references: [id])
+  studentId Int
+  class     Class   @relation(fields: [classId], references: [id])
+  classId   Int
+
+  @@unique([studentId, classId, date])
+}
+
+// Define the Grade model
+model Grade {
+  id    Int    @id @default(autoincrement())
+  value Float  @default(0)
+  Total Float
+  Topic String
+  Date  String
+  percent Float
+  // Add more fields as needed
+
+  // Define relationships
+  student   Student @relation(fields: [studentId], references: [id])
+  studentId Int
+  class     Class   @relation(fields: [classId], references: [id])
+  classId   Int
+
+  @@unique([Topic, Date, studentId, classId])
+}
