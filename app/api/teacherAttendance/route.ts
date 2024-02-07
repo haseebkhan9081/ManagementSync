@@ -5,14 +5,17 @@ import { NextResponse } from "next/server";
 export async function POST(req:Request){
 
     try{
-const {
-    TeacherId,
-    clerkId,
-    arrival,
-    date,
-    departure
+const {     isPresent,
+            isAbsent,
+            TeacherId,
+            clerkId,
+            arrival,
+            date,
+            departure
 }=await req.json();
 const {userId}=auth();
+console.log("at api",
+    isAbsent,isPresent )
 if(!userId){
     return new NextResponse("UnAuthorized",{status:400});
 }
@@ -27,7 +30,7 @@ const att=await client.teacherAttendance.findUnique({
 })
 
 if(att){
-    if(departure.length>0){
+    if(departure?.length>0){
 const updated=await client.teacherAttendance.update({
     where:{
         date_clerkid:{
@@ -40,7 +43,8 @@ const updated=await client.teacherAttendance.update({
     }
 })
 return  NextResponse.json(updated);
-}else if(arrival.length>0){
+}
+else if(arrival?.length>0){
     const updated=await client.teacherAttendance.update({
         where:{
             date_clerkid:{
@@ -53,6 +57,21 @@ return  NextResponse.json(updated);
         }
     }) 
 return NextResponse.json(updated);
+}else if(isAbsent||isPresent){
+    const updated=await client.teacherAttendance.update({
+        where:{
+            date_clerkid:{
+                date,
+                clerkid:clerkId
+            }
+        },
+        data:{
+     isAbsent,
+     isPresent
+        }
+    }) 
+return NextResponse.json(updated);
+
 }
 
 }else{
@@ -63,15 +82,17 @@ const newatt=await client.teacherAttendance.create({
         Arrival:arrival,
         departure:departure,
         date:date,
-        isPresent:true,
-        isAbsent:false  
+        isPresent:false,
+        isAbsent:false ,
+
     }
 })
 
 return NextResponse.json(newatt);
 }
-return new NextResponse("not found",{status:404});
-    }catch(Err:any){
+return NextResponse.json(att);
+
+}catch(Err:any){
         console.log("[ERROR AT api/teacherAttendance]",Err);
         return new NextResponse("INternal Server error",{status:500})
     }

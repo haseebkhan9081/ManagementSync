@@ -31,6 +31,7 @@ duration-700
     items-center
     w-full
     ring-1
+    text-customLight
     ring-customTeal
        text-sm
     rounded-md

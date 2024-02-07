@@ -2,16 +2,19 @@ import client from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req:Request){
+export async function POST(req:Request){
 
 try{
+  const {
+id
+  }=await req.json()
 const {userId}=auth();
 if(!userId){
     return new NextResponse("unauthorized",{status:400})
 }
 const teacher=await client.teacher.findUnique({
     where:{
-        clerkId:userId
+        clerkId:id
     }
 });
 
@@ -23,7 +26,7 @@ if(teacher){
   const total = await client.teacherAttendance.findMany({
      
     where: {
-      clerkid:userId,
+      clerkid:id,
       date: {
         endsWith: `.${currentMonth.toString().padStart(2, '0')}.${currentYear}`,
       },
@@ -32,7 +35,7 @@ if(teacher){
   });
   const present=await client.teacherAttendance.count({
     where:{
-      clerkid:userId,
+      clerkid:id,
         date:{
             endsWith: `.${currentMonth.toString().padStart(2, '0')}.${currentYear}`,
         },
@@ -41,7 +44,7 @@ if(teacher){
   })
   const leave=await client.teacherAttendance.count({
     where:{
-      clerkid:userId,
+      clerkid:id,
         date:{
             endsWith: `.${currentMonth.toString().padStart(2, '0')}.${currentYear}`,
     
@@ -51,7 +54,7 @@ if(teacher){
   })
   const leaveProfile=await client.teacherAttendance.findMany({
     where:{
-      clerkid:userId,
+      clerkid:id,
         date:{
             endsWith: `.${currentMonth.toString().padStart(2, '0')}.${currentYear}`,
     

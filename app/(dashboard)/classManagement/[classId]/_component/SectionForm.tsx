@@ -322,6 +322,7 @@ field.onChange(v);
                   <FormLabel>Start Time</FormLabel>
                   <FormControl> 
                 <TimePicker
+                fetchData={()=>{}}
                 value={field.value}
                 onChange={field.onChange}
                 />
@@ -339,6 +340,8 @@ field.onChange(v);
                   <FormLabel>End Time</FormLabel>
                   <FormControl> 
                 <TimePicker
+
+                fetchData={()=>{}}
                 value={field.value}
                 onChange={field.onChange}
                 />

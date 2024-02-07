@@ -1,95 +1,128 @@
 "use client";
-import getRolebyEmail from "@/app/actions/getRolebyEmail";
-import { auth, clerkClient, useUser } from "@clerk/nextjs";
-import { Teacher, User } from "@prisma/client";
+
+import { Transition } from "@headlessui/react";
+import { Class, Teacher, TeacherAttendance } from "@prisma/client";
 import axios from "axios";
-import { Loader2, Lock } from "lucide-react";
-import { use, useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import RoleRequest from "../roles/_components/RoleRequest";
-
+import { Loader2, PlusCircle, ScrollText } from "lucide-react";
+import { Suspense, lazy, useState } from "react";
+import { useInView } from "react-intersection-observer"; 
+import { FadeIn } from "../_components/FadeIn";
+import { Button } from "@/components/ui/button";
+const NewAttendance=lazy(()=>import("./_components/NewAttendance").then((module)=>({default:module?.NewAttendance})));
+const TeacherBox= lazy(()=>import("./_components/TeacherBox").then((module)=>({default:module.TeacherBox})));
+const AllAtendance=lazy(()=>import("./_components/AllAtendance").then((module)=>({default:module?.AllAtendance})))
 const TeacherManagement=()=>{
-const {user,isLoaded,isSignedIn}=useUser()
-const [roleUser,setRoleUser]=useState<User|null>(null);
- const [teachers,setTeachers]=useState<Teacher[]|null>(null);
-useEffect(()=>{
-axios.get(`/api/user/${user?.id}`)
-.then((response)=>{
- setRoleUser(response.data);
- console.log("user has been fetched now",response.data);
-})
-.catch((err)=>{
-console.log("[ERROR teacherManagement]",err);
-})
+const [teachers,setTeachers]=useState<(Teacher&{
+    classes:Class[],
+    teacherAttendances:TeacherAttendance[]
+})[]>([]);
+const [loading,setLoading]=useState(true);
+const fetchData=()=>{
+setLoading(true)
+axios.get("/api/teacher/all").then((res)=>{
+    setTeachers(res.data);
 
-axios.get("/api/teacher")
-.then((response)=>{
-setTeachers(response.data);
-})
-.catch((err)=>{
-console.log("[ERROR teacherManagement loading teachers]",err);
+}).catch((err)=>{
+    console.log("[Error at /home/haseeb/project/management_sync/app/(dashboard)/teacherManagement/page.tsx]")
+
+}).finally(()=>{
+    setLoading(false);
 })
 
-},[user])
+}
 
+const {ref}=useInView({
+    threshold:0.1,
+    triggerOnce:true,
+     onChange:(inview)=>{
+        if(inview){
+            fetchData();
+        }
+     }
+})
+const [newAttendance,setNewAttendance]=useState(false);
+const [attendance,setAttendance]=useState(false);
 
-
-
-if(!user||!user?.emailAddresses[0]?.emailAddress||!isLoaded||!isSignedIn){
-<div
-className="flex justify-center w-full
-h-screen
-items-center">
-<Loader2
-className="w-6 h-6 text-slate-900 z-50 animate-spin"/>
-</div>
-}else{
-    
-if(roleUser?.admin||roleUser?.visitor){
-return <div
-className="p-3">
-    {/* //the section that the admin will see
-     */}
-    <div
-    className="
-    mt-2
-    flex
+ return <div
+ ref={ref}
+ className="bg-customDark
+ w-full
+ relative"
+ >
+  { loading&&<div
+  className="flex
+  flex-col
+  items-center
+  
+  justify-center
+  w-full">
+    <Loader2
+    className="text-customTeal;
+    animate-spin
+    w-8
+    h-8"/>
+    </div>}  <div
+    className="flex
     flex-col
-    space-y-2
-
+    w-full
+    z-50
     ">
-{teachers?.[0] && 
-teachers?.map((teach)=>(
-    <RoleRequest
-    firstName={teach?.firstName}
-    lastName={teach?.lastName}
-    email={teach?.email!}
-    imageUrl={teach?.imageUrl}
-    />
-)) }
+     <div
+     className="mt-2
+     flex-col
+     flex
+     w-full
+     space-y-4
+     p-3">
+        <Button
+        onClick={()=>{
+            setAttendance(false)
+            setNewAttendance(!newAttendance)}}
+        className="gap-x-2">
+            {newAttendance?(<div>Cancel</div>):(<><PlusCircle/> New Attendance</>)}
+           
+        </Button>
+        <Button
+        onClick={()=>{
+
+            setNewAttendance(false)
+            setAttendance(!attendance)}}
+        className="gap-x-2">
+             {attendance?(<div>Cancel</div>):(<>  <ScrollText/>  See All Attendance</>)}
+        
+          
+        </Button>
+         {newAttendance&&
+         
+         <Suspense>
+            <NewAttendance
+            //@ts-ignore
+            teachers={teachers}
+            />
+         </Suspense>
+         }
+         {attendance&&
+         
+         <Suspense>
+            <AllAtendance/>
+         </Suspense>
+         }
+        </div>   
+  <Transition.Root
+  show={!loading}>      
+ {teachers?.map((t)=>(
+   <FadeIn delay=" ">
+   <Suspense
+   fallback={<div>loading...</div>}>
+   <TeacherBox
+   profile={t}/>
+   </Suspense>
+   </FadeIn>
+ ))}
+ </Transition.Root>
 
     </div>
-
-</div>
-}else if(roleUser?.teacher){
-    return <div>hi teacher</div>
-} 
-else{
-    return   <div
-className="flex justify-center w-full
-p-6
-flex-col
-h-screen
-items-center">
-<Loader2
-className="w-12 h-12
-text-slate-900 z-50 animate-spin"/>
-<div>You will only be able to manipulate
-this page if you are an admin or a teacher!
-please Ask the admin to grant you permission!</div>
-</div>
-    
-} }
+     </div>
 }
 
 export default TeacherManagement;

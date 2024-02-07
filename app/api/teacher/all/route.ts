@@ -11,7 +11,12 @@ if(!userId){
     return new NextResponse("unauthorized]",{status:500});
 
 }
-const allTeachers:Teacher[]=await client.teacher.findMany();
+const allTeachers:Teacher[]=await client.teacher.findMany({
+    include:{
+    classes:true,
+    teacherAttendances:true,    
+    }
+});
 
 return NextResponse.json(allTeachers);
     }catch(err){
