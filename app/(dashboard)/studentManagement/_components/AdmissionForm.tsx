@@ -42,7 +42,7 @@ const formSchema = z.object({
   phone: z.string().min(11, {
     message: "phone must be at least 11 characters.",
   }),
-  adress: z.string(),
+  adress: z.string().optional(),
   sections:z.array(z.record(z.any())).optional(),
   
 })
