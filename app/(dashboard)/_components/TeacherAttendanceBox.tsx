@@ -33,6 +33,8 @@ import { LeaveLabel } from './LeaveLabel';
         setIsFetched(true);
         }).catch((err)=>{
             console.log("[err management_sync/app/(dashboard)/_components/TeacherAttendanceBox.tsx ]",err);
+        }).finally(()=>{
+          setIsFetched(true);
         })
     }
     const [ref, inView] = useInView({

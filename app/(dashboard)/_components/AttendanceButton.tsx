@@ -150,6 +150,7 @@ setIsSubmitting(true);
     clerkId,
     arrival:currentTime,
     date,
+    isPresent:true,
     departure
   }).then((response)=>{
     console.log(response.data);
