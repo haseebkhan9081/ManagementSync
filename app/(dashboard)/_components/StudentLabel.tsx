@@ -58,7 +58,7 @@ duration-700
         className='flex
         flex-row
         '
-        >{p?.student?.Contact}<CopyToClipboard text={p?.student?.Contact} onCopy={handleCopy}>
+        >{p?.student?.Contact}<CopyToClipboard text={p?.student?.Contact||""} onCopy={handleCopy}>
          
           <Copy
           className={cn(`w-6 h-6 cursor-pointer`,
