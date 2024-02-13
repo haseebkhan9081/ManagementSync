@@ -30,8 +30,8 @@ import { useAllsectionsState } from "@/app/hooks/useAllSectionsState";
 const formSchema = z.object({
   name: z.record(z.any()),
   subject: z.string(),
-students:z.array(z.record(z.any())).min(2,{
-  message:"there must be atleast 2 students in this section"
+students:z.array(z.record(z.any())).min(1,{
+  message:"there must be atleast 1 students in this section"
 }),
 teacher:z.record(z.any()),
 startTime:z.string().min(3),
