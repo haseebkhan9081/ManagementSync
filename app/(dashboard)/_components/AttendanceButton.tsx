@@ -132,7 +132,7 @@ const AttendanceButton:React.FC<AttendanceButtonProps>=({
         return deg * (Math.PI / 180);
       }
       useEffect(()=>{
-if(distance<=0.25){
+if(distance<=10.25){
     setInRange(true)
 
 }else{
