@@ -20,10 +20,12 @@ export async function GET() {
         id: "desc"
       }
     });
-if(!clas[0]){
-    return new NextResponse("No class found",{status:400});
-}
+if(clas[0]){
+
     return NextResponse.json(clas);
+}
+return new NextResponse("No class found",{status:400});
+
   } catch (err) {
     console.log("[ERROR /api/class/getAll]", err);
     return new NextResponse("internal server error", { status: 500 });
