@@ -20,7 +20,7 @@ const ReactQuilll=useMemo(()=>dynamic(()=>import("react-quill"),{ssr:false}),[])
 
 return (
 <div className="bg-customLight
-h-[100px]
+h-[140px]
 w-full">
 <ReactQuilll
 onFocus={()=>setBlur(false)}
