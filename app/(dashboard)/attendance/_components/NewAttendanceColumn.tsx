@@ -8,8 +8,7 @@ import axios from "axios"
 import { set } from "date-fns"
 import { is } from "date-fns/locale"
 import { Loader2 } from "lucide-react"
-import { useEffect, useState } from "react"
-import ClassId from "../../classManagement/[classId]/page"
+import { useEffect, useState } from "react" 
 import { toast } from "sonner"
 import { Cell } from "recharts"
 import { Input } from "@/components/ui/input"
@@ -123,8 +122,10 @@ toast.error("Topic Description can not be blank!")
       axios.post("/api/attendance",{
         topic:Topic,
         isAbsent:a,
+        fine:a?25:undefined,
         isOnLeave:l,
         isPresent:p,
+        due:a?true:undefined,
         classId:classId,
         id:row.original.id,
         date:date,

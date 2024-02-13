@@ -17,9 +17,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 import toast from "react-hot-toast"
+import { useMyInfo } from "@/app/hooks/usemyInfo"
+import { useAttendanceData } from "@/app/hooks/useAttendanceData"
  
 export type Grade = {
     id   :number,
@@ -40,10 +42,16 @@ export const columns: ColumnDef<Grade>[] = [
       
   {
     accessorKey:"roll",
-    header:"Roll#",
+    header:()=>{
+      return  <div className="text-customLight">Roll</div> 
+      
+    },
     accessorFn:(row)=>{
       return row.student.id
     },
+    cell:({row})=>{
+      return <div className="text-customLight">{row.original.studentId}</div>
+    }
      
   
   },
@@ -52,16 +60,35 @@ export const columns: ColumnDef<Grade>[] = [
         accessorFn:(row)=>{
           return row.student.Name
         },
-        header:"Name"
+        header:( )=>{
+          return <div className="text-customLight">Name</div>
+        },
+        cell:({row})=>{
+          return <div className="text-customLight">{row.original.student.Name}</div>
+        }
       },
       {
         accessorKey:"Marks",
-        header:"Obt.Marks",
+        header:()=>{
+          return <div className="text-customLight">Marks</div>
+        },
         accessorFn:(row)=>{
       return row.value
         },
         cell:({row,table,column,getValue})=>{
- 
+          //cheking if this section belongs to me
+          const {teacherId}=useMyInfo();
+          const {sections}=useAttendanceData();
+          const [disabled,setDisabled]=useState(false);
+          useEffect(()=>{
+          const filter=sections?.filter((s)=>s.id===row.original.classId)?.[0]?.teacherid;
+          if(filter!==teacherId){
+          setDisabled(true)
+          }
+          },[row.original.classId])
+
+
+
           let Total=row.original.Total;
         const Topic=row.original.Topic;
          const date=row.original.Date;
@@ -114,8 +141,18 @@ export const columns: ColumnDef<Grade>[] = [
               className="w-4 h-4 animate-spin"/>
             )}
             <Input
+             
+            max={Total}
+            
+            className="
+            focus-within:ring-0
+            focus-within:ring-offset-0
+            focus-visible:ring-0
+            focus-visible:ring-offset-0
+            bg-customLight
+            text-customGray"
           disabled={
-            isSubmitting}
+            isSubmitting||disabled}
     value={value}
     onChange={(v)=>setValue(Number(v.target.value))}
     onBlur={handleBlur}
@@ -126,25 +163,44 @@ export const columns: ColumnDef<Grade>[] = [
       },
       {
 accessorKey:"percent",
-header:"Percent",
+header: ()=>{
+  return <div className="text-customLight">Percentage</div>
+},
 cell:({row})=>{
   const percent = row.original.percent;
   const formattedPercent = (percent * 100).toFixed(2) + "%";
   
-  return <div>{formattedPercent}</div>
+  return <div
+  className="text-customLight">{formattedPercent}</div>
 }
 
       },
       {
         accessorKey:'Total',
-        header:"Total"
+        header:( )=>{
+          return <div className="text-customLight">Total</div>
+        },
+        cell:({row})=>{
+          return <div className="text-customLight">{row.original.Total}</div>
+        }
       },
       {
         accessorKey:'Date',
-        header:"Date"
+        header:( )=>{
+          return <div className="text-customLight">Date</div>
+        },
+        cell:({row})=>{
+          return <div className="text-customLight">{row.original.Date}</div>
+        }
       },
       {
         accessorKey:"Topic",
-        header:"Topic"
+        header:()=>{
+          return <div className="text-customLight">Topic</div>
+        }
+        ,
+        cell:({row})=>{
+          return <div className="text-customLight">{row.original.Topic}</div>
+        }
       }, 
 ]

@@ -21,6 +21,7 @@ const [attendance,setAttendance]=useState<Attendance[]>([])
 const fetchData=()=>{
 fetchSections(); 
 }
+
 const fetchAttendance=(id:number)=>{
 
  axios.post("/api/attendance/get",{

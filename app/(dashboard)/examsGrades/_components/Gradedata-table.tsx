@@ -94,14 +94,21 @@ export function DataTable<TData, TValue>({
           onChange={(event) =>
             table.getColumn(filter)?.setFilterValue(event.target.value)
           }
-          className="max-w-sm
+          className="max-w-sm'
+          focus-within:ring-0
+          focus-within:ring-offset-0
+          focus-visible:ring-0
+          focus-visible:ring-offset-0
            "
         />
          
 
          <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="default" className="
+            bg-customDark
+            text-customTeal
+            ml-auto">
               <Filter
               className="w-6
               h-6"/>
@@ -128,7 +135,10 @@ checked={column===filter}
         {/* the below one is for the columns */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="default" className="
+            bg-customDark
+            text-customTeal
+            ml-auto">
               Columns
             </Button>
           </DropdownMenuTrigger>
@@ -193,7 +203,9 @@ checked={column===filter}
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell colSpan={columns.length} className="
+              text-customTeal
+              h-24 text-center">
                 No results.
                        </TableCell>
             </TableRow>
@@ -203,7 +215,9 @@ checked={column===filter}
     </div>
     <div className="flex items-center justify-end space-x-2 py-4">
         <Button
-          variant="outline"
+          variant="default"
+          className=" bg-customDark
+          text-customTeal"
           size="sm"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
@@ -211,7 +225,9 @@ checked={column===filter}
           Previous
         </Button>
         <Button
-          variant="outline"
+          variant="default"
+          className=" bg-customDark
+          text-customTeal"
           size="sm"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}

@@ -19,6 +19,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { useAllsectionsState } from '@/app/hooks/useAllSectionsState';
+import { useMyInfo } from '@/app/hooks/usemyInfo';
   
 interface SectionProps{
     section:Class&{
@@ -60,7 +61,8 @@ export const Section:React.FC<SectionProps> = ({
      const {setEditSection,setEditTap}=useEditSectionState();
 const [tap,setTap]=useState(false);
 const {fetchSections}=useAllsectionsState();
-const [pass,setpass]=useState(section?.passedOut)  
+const [pass,setpass]=useState(section?.passedOut) 
+const {admin}=useMyInfo(); 
 return (
     <div
     className='
@@ -85,15 +87,21 @@ p-3
     <div
     className='absolute  left-3 top-3 '>
   <DropdownMenu>
-  <DropdownMenuTrigger><MoreHorizontal className='text-customLight'/>  
+  <DropdownMenuTrigger
+   
+    ><MoreHorizontal className='text-customLight'/>  
          </DropdownMenuTrigger>
-  <DropdownMenuContent side='left'>
+  <DropdownMenuContent
+
+  side='left'>
     
     <DropdownMenuItem
+      disabled={!admin}
     onClick={()=>{setEditSection(section)
     setEditTap(true)
     }}>Edit</DropdownMenuItem>
     <DropdownMenuItem
+      disabled={!admin}
     className='flex-row gap-x-2'>
         
       Pass Out <Switch 
@@ -166,15 +174,19 @@ p-3
             <div
             className='w-full'>
             <DropdownMenu>
-  <DropdownMenuTrigger><MoreHorizontal className='text-customLight'/>  
+  <DropdownMenuTrigger
+    
+  ><MoreHorizontal className='text-customLight'/>  
          </DropdownMenuTrigger>
   <DropdownMenuContent side='left'>
     
     <DropdownMenuItem
+    disabled={!admin}
     onClick={()=>{setEditSection(section)
     setEditTap(true)
     }}>Edit</DropdownMenuItem>
     <DropdownMenuItem
+    disabled={!admin}
     className='flex-row gap-x-2'>
         
       Pass Out <Switch 

@@ -1,16 +1,21 @@
 "use client";
 import { useEditSectionState } from "@/app/hooks/useSectionEditState";
+import { useMyInfo } from "@/app/hooks/usemyInfo";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { Edit, Loader2, PlusCircle, PlusCircleIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Suspense, lazy, useState } from "react"; 
+import { Suspense, lazy, useEffect, useState } from "react"; 
 const AllSections=lazy(()=>import("./_components/AllSections").then((module)=>({default:module.AllSections})));
 const SectionForm=lazy(()=>import("./_components/SectionForm"))
 const ClassManagement=()=>{
 
   const {setEditTap,EditTap,setEditSection}=useEditSectionState();
- 
+ const {admin,fetchInfo}=useMyInfo();
+  
+   useEffect(()=>{
+fetchInfo()
+   },[])
     return <div
     className="p-3
     bg-customDark">
@@ -22,7 +27,7 @@ const ClassManagement=()=>{
   <div
   className="w-full">
 <Button
-
+  disabled={!admin}
 onClick={()=>{
   setEditSection(null);
   setEditTap(!EditTap)

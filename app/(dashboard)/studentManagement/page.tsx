@@ -8,7 +8,13 @@ const AdmissionForm=lazy(()=>import("./_components/AdmissionForm"));
 import { useStudentEditState } from "@/app/hooks/useStudentEditState";
 import { useAllStudentState } from "@/app/hooks/AllStudentState";
 import { ftruncate } from "fs";
+import { useMyInfo } from "@/app/hooks/usemyInfo";
 const StudentManagement=()=>{
+    const {admin,fetchInfo}=useMyInfo()
+    
+   useEffect(()=>{
+fetchInfo()
+   },[])
     const {edit,profile,setEdit}=useStudentEditState()
       
  
@@ -27,6 +33,7 @@ bg-customDark
     flex-col p-3">
        
    <Button
+     disabled={!admin}
    variant={"default"}
 
    onClick={()=>{

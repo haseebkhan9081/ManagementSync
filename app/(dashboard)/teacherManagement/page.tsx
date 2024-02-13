@@ -10,6 +10,7 @@ import { FadeIn } from "../_components/FadeIn";
 import { Button } from "@/components/ui/button";
 import { useTeacherAttendanceDateState } from "@/app/hooks/useTeacherAttendanceDate";
 import { format } from "date-fns";
+import { useMyInfo } from "@/app/hooks/usemyInfo";
 const NewAttendance=lazy(()=>import("./_components/NewAttendance").then((module)=>({default:module?.NewAttendance})));
 const TeacherBox= lazy(()=>import("./_components/TeacherBox").then((module)=>({default:module.TeacherBox})));
 const AllAtendance=lazy(()=>import("./_components/AllAtendance").then((module)=>({default:module?.AllAtendance})))
@@ -48,9 +49,13 @@ const {ref}=useInView({
         }
      }
 })
+const {fetchInfo}=useMyInfo();
+   useEffect(()=>{
+fetchInfo()
+   },[])
 const [newAttendance,setNewAttendance]=useState(false);
 const [attendance,setAttendance]=useState(false);
-
+const {admin}=useMyInfo()
  return <div
  ref={ref}
  className="bg-customDark
@@ -65,6 +70,7 @@ const [attendance,setAttendance]=useState(false);
   justify-center
   w-full">
     <Loader2
+    
     className="text-customTeal;
     animate-spin
     w-8
@@ -83,19 +89,27 @@ const [attendance,setAttendance]=useState(false);
      space-y-4
      p-3">
         <Button
+          disabled={!admin}
         onClick={()=>{
             setAttendance(false)
             setNewAttendance(!newAttendance)}}
-        className="gap-x-2">
+        className="gap-x-2
+        bg-customTeal
+        hover:bg-customGray
+        ">
             {newAttendance?(<div>Cancel</div>):(<><PlusCircle/> New Attendance</>)}
            
         </Button>
         <Button
+          
         onClick={()=>{
 
             setNewAttendance(false)
             setAttendance(!attendance)}}
-        className="gap-x-2">
+        className="gap-x-2
+        bg-customTeal
+        hover:bg-customGray
+        ">
              {attendance?(<div>Cancel</div>):(<>  <ScrollText/>  See All Attendance</>)}
         
           

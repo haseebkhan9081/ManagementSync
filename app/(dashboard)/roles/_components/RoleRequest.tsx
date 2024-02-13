@@ -20,11 +20,11 @@ interface RoleRequestProps{
     <div className='flex 
     flex-row justify-between 
     gap-x-1
-    ring-2 rounded-md
-   
-   hover:ring-sky-700
+    rounded-md
+   bg-customGray
+   hover:ring-customTeal
    hover:ring-2
-    ring-slate-900
+   text-customLight
     shadow-lg
     p-3
     items-center

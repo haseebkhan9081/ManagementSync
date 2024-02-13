@@ -32,7 +32,7 @@ const clas= await client.class.findMany({
     }
 });
 
- 
+ console.log(clas.length)
 
 return NextResponse.json(clas);
 }catch(err){

@@ -40,7 +40,8 @@ declare module '@tanstack/react-table' {
     getTotal: ( ) => number,
     total:number,
     topic:string,
-    date:string
+    date:string,
+    sectionId:number,
   }
 }
 interface DataTableProps<TData, TValue> {
@@ -48,7 +49,8 @@ interface DataTableProps<TData, TValue> {
   data: TData[],
   Total:number,
   Topic:string,
-  date:string
+  date:string,
+  sectionId:number
 }
 
 export function DataTable<TData, TValue>({
@@ -56,7 +58,8 @@ export function DataTable<TData, TValue>({
   data,
   Total,
   Topic,
-  date
+  date,
+  sectionId
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
@@ -81,7 +84,8 @@ export function DataTable<TData, TValue>({
       getTotal:()=>{return Total},
       total:Total,
       topic:Topic,
-      date:date
+      date:date,
+      sectionId,
 
     }
    
@@ -110,15 +114,22 @@ export function DataTable<TData, TValue>({
             table.getColumn(filter)?.setFilterValue(event.target.value)
           }
           className="max-w-sm
+          focus-within:ring-0
+        focus-within:ring-offset-0
+        focus-visible:ring-0
+        focus-visible:ring-offset-0
            "
         />
          
 
          <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="default" className="
+            bg-customDark
+            ml-auto">
               <Filter
               className="w-6
+              text-customTeal
               h-6"/>
             </Button>
           </DropdownMenuTrigger>
@@ -143,7 +154,10 @@ checked={column===filter}
         {/* the below one is for the columns */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="default" className="
+            bg-customDark
+            text-customTeal
+            ml-auto">
               Columns
             </Button>
           </DropdownMenuTrigger>
@@ -208,7 +222,7 @@ checked={column===filter}
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell colSpan={columns.length} className="h-24 text-customLight text-center">
                 No results.
                 Pease Take Attendance First.
               </TableCell>
@@ -219,15 +233,19 @@ checked={column===filter}
     </div>
     <div className="flex items-center justify-end space-x-2 py-4">
         <Button
-          variant="outline"
+          variant="default"
           size="sm"
+          className="text-customTeal
+          bg-customDark"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
           Previous
         </Button>
         <Button
-          variant="outline"
+        className="text-customTeal
+        bg-customDark"
+          variant="default"
           size="sm"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}

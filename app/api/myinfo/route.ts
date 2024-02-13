@@ -18,11 +18,21 @@ export async function GET(req: Request,
   const teacher=await client.teacher.findUnique({
     where:{
         clerkId:userId
-    }
-  })
+    }})
+   const dbuser=await client.user.findUnique({
+    where:{
+        clerkId:userId
+    }}) 
+  
        
    
-      return NextResponse.json(teacher);
+      return NextResponse.json({
+        teacherId:teacher?.id,
+        teacher:dbuser?.teacher,
+        visitor:dbuser?.visitor,
+        admin:dbuser?.admin,
+        clerkId:userId,
+      } );
     } catch (err) {
       console.log("[ERROR api/student/[studentid] - GET]", err);
       return new NextResponse("Internal Server error", { status: 500 });

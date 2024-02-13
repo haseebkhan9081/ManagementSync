@@ -24,7 +24,7 @@ export const AcademicWarningLabel:React.FC<AcademicWarningLabelprops> = ({
     '>
         <div>{Sname}</div>
         <div
-        className='text-red-600'>{averge}%</div>
+        className='text-red-600'>{averge.toFixed(2)}%</div>
         <div>{Cname}</div>
     </div>
   )

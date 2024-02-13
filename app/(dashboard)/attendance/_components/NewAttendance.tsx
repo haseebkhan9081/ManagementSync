@@ -16,13 +16,10 @@ const {setTopic,Topic,sections,date,setDate,setClassId}=useAttendanceData();
 const [blur,setBlur]=useState(false);
 const [classId,setClasId]=useState<Record<string,any>>({value:0,label:"please select a section to mark attendance"})
 const [students,setStudents]=useState<Student[]>([]); 
-const {fetchTeacherId,teacherId}=useMyInfo();
+const {teacherId}=useMyInfo();
 const [filter,setFilter]=useState<Class[]>([]);
 const [ldate,setlDate]=useState(new Date());
-useEffect(()=>{ 
  
-  fetchTeacherId();
-},[])
 useEffect(
   ()=>{
 const filter=sections?.filter((s)=>s.teacherid===teacherId)
@@ -44,6 +41,7 @@ const st=filter?.filter((section)=>section?.id===classId?.value)?.[0]?.students;
       flex-col
       mb-4
       z-50'>{sections.length===0&&<div>loading...</div>}
+       <div>
         <Select
       value={classId}
       options={filter?.map((section)=>(
@@ -61,6 +59,7 @@ const st=filter?.filter((section)=>section?.id===classId?.value)?.[0]?.students;
        
       
       />
+      </div>
         {blur?<Preview
         setBlur={setBlur}
         value={Topic}

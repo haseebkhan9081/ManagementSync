@@ -1,14 +1,13 @@
 "use client";
 import { Attendance, Class, Grade, Student } from "@prisma/client";
 import { format } from "date-fns";
-import { useEffect, useState } from "react";
-import MainTable from "./MainTable";
+import { Suspense, lazy, useEffect, useState } from "react"; 
+const MainTable=lazy(()=>import("./MainTable"))
 import {   columns } from "./columns"
 import { DataTable } from "./data-table";
-import { Button } from "@/components/ui/button";
-import GradeMainTable from "./GradeMainTable";
-import { Check, CheckCheck } from "lucide-react";
-
+import { Button } from "@/components/ui/button"; 
+import { PlusCircleIcon } from "lucide-react";
+const GradeMainTable=lazy(()=>import("./GradeMainTable"))
 interface MainProps{
    
 }
@@ -20,7 +19,8 @@ const [isNew,setIsNew]=useState(false);
      
 
     return  <div
-    className="p-6
+    className="
+    p-3
     flex
     flex-col">
       <div
@@ -39,18 +39,28 @@ const [isNew,setIsNew]=useState(false);
         flex
         flex-col">
 <Button
+className="
+bg-customTeal
+hover:bg-customGray
+w-full
+flex-row
+
+"
  type="button"
  onClick={()=>setIsNew(false)}
  >Done</Button>
 <div
 className="
-mt-2
-transition
-duration-500">
+mt-4
+ ">
+
+  <Suspense
+  fallback={<div>loading...</div>}>
          <MainTable
-         //@ts-ignore
-         sections={sections as MainProps['sections']}
+        
+          
          />
+         </Suspense>
      </div>
      </div>
 
@@ -58,35 +68,32 @@ duration-500">
           
           <Button
           type="button"
+          className="
+          bg-customTeal
+          hover:bg-customGray
+          w-full
+          flex-row
+          gap-x-1
+          "
           onClick={()=>setIsNew(true)}
-          >New Test</Button>
+          ><PlusCircleIcon
+ 
+          />New Test</Button>
         )}
         </div>
 
      </div>
      <div
-     className="">
-      <div
-      className="flex
-      mb-2
-      flex-row
-      w-full
-      items-center
-      gap-x-3">
-      <h1
-      className="
-      text-2xl
-      text-slate-800
-      font-bold
-      ">All Grades</h1>
-      <Check
-      className="h-8 w-8
-      "/>
-      </div>
+     className="
+     mt-6">
+    
+       <Suspense
+       fallback={<div></div>}>
      <GradeMainTable
      
       
      />
+     </Suspense>
      </div>
       </div>
 }

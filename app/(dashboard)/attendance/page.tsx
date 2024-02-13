@@ -1,10 +1,16 @@
-import getClassesByTeacherId from "@/app/actions/getClassesByTeacherId";
+ "use client"
+ import { useMyInfo } from "@/app/hooks/usemyInfo";
 import AttendanceList from "./_components/AttendanceList"; 
+import { useEffect } from "react";
  
 
-const Attendance=async()=>{
+
+const Attendance= ()=>{
    
-    
+   const {fetchInfo}=useMyInfo();
+   useEffect(()=>{
+fetchInfo()
+   },[]) 
 
    
     return <div

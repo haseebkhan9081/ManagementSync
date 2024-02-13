@@ -180,11 +180,12 @@ onClick={()=>setTap(false)}/>
   <FadeIn delay='delay-[500ms]'>
   <Suspense
   fallback={
+
     <SkeletonTheme
-            baseColor="#222831" highlightColor="#393E46">
+    baseColor="#222831" highlightColor="#393E46">
 <Skeleton
 className='rounded-lg  w-full h-full'/>
-            </SkeletonTheme>
+    </SkeletonTheme>
   }>
   <FineLabel
   fetchData={fetchData}

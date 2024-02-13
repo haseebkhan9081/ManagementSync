@@ -24,6 +24,7 @@ import { useStudentEditState } from "@/app/hooks/useStudentEditState"
 import axios from "axios"
 import { toast } from "sonner"
 import { useAllStudentState } from "@/app/hooks/AllStudentState"
+import { useMyInfo } from "@/app/hooks/usemyInfo"
 
 export type Student ={
   id  :number,
@@ -51,6 +52,7 @@ export const columns: ColumnDef<Student>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      const {admin}=useMyInfo()
       const attendance = row.original
       const router=useRouter();
       const {setEdit,setEditProfile}=useStudentEditState();
@@ -80,6 +82,7 @@ export const columns: ColumnDef<Student>[] = [
             View Profile<User className="text-customTeal"/>
           </DropdownMenuItem>
             <DropdownMenuItem
+              disabled={!admin}
             className="flex-row
             gap-x-2
             w-full"
@@ -93,6 +96,7 @@ setEditProfile(row.original);
               Edit<UserCog className="text-customTeal"/>
             </DropdownMenuItem>
             <DropdownMenuItem
+              disabled={!admin}
             className="flex-row
             gap-x-2
             w-full"

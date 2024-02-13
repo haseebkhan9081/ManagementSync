@@ -13,9 +13,10 @@ import {
   } from "@/components/ui/alert-dialog" 
 import { useRouter } from "next/navigation";
 import { Switch } from "../ui/switch";
-import { useState } from "react";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import axios from "axios"; 
+import { toast } from "sonner";
+import { useMyInfo } from "@/app/hooks/usemyInfo";
   
 interface RoleModalProps{
     children:React.ReactNode;
@@ -23,7 +24,7 @@ interface RoleModalProps{
    lastName:string;
    email:string;
    imageUrl:string;
-   admin:boolean;
+   admiN:boolean;
    teacher:boolean;
    visitor:boolean;
    id:string
@@ -40,13 +41,17 @@ email,
 firstName,
 lastName,
 imageUrl,
-admin,
+admiN,
 teacher,
 visitor
-  }:RoleModalProps)=>{
+  }:RoleModalProps)=>{ 
+    const {admin,fetchInfo}=useMyInfo()
+    useEffect(()=>{
+fetchInfo();
+    },[])
 const router=useRouter();
 const [t,setT]=useState(teacher);
-const [a,setA]=useState(admin);
+const [a,setA]=useState(admiN);
 const [v,setV]=useState(visitor);
 console.log("id recived here in the RoleModal",id);
 const onClick=()=>{
@@ -60,15 +65,7 @@ const onClick=()=>{
     visitor:v,
     email
   }).then(()=>{
-    toast(`permision updated!
-    `,{
-      icon:'👍',
-      style:{
-        borderRadius: '10px',
-      background: '#333',
-      color: '#fff',
-      }
-    })
+     toast.success("permission updated!")
   }).catch((err)=>{
     console.log("ERROR RoleModal",err);
     toast.error(`could not update permission` )
@@ -79,6 +76,10 @@ const onClick=()=>{
 
 
 return (
+  <div
+  className="">
+
+ 
 <AlertDialog>
   <AlertDialogTrigger asChild>
     {children}
@@ -139,12 +140,13 @@ text-slate-800
     <AlertDialogFooter className="flex flex-row justify-between items-center">
       <AlertDialogCancel>Cancel</AlertDialogCancel>
       <AlertDialogAction 
-      onClick={onClick} >Apply
+      disabled={!admin}
+      onClick={onClick} >Save Changes
       </AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>
-
+</div>
 
 
 );

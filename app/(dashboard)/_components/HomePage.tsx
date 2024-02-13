@@ -5,11 +5,13 @@ const AttendanceButton=lazy(()=> (
     ); 
 import { useUser } from "@clerk/nextjs";
 import {   TeacherAttendance } from "@prisma/client";
- import { lazy,Suspense } from "react"; 
+ import { lazy,Suspense, useEffect, useState } from "react"; 
 import { useRouter } from "next/navigation";
    
  import { Loader2 } from "lucide-react";  
 import { useAllStudentState } from "@/app/hooks/AllStudentState";
+import axios from "axios";
+import { useMyInfo } from "@/app/hooks/usemyInfo";
 const AcademicWarnings=lazy(()=>import("./AcademicWarnings").then((module)=>({default:module.AcademicWarnings})))
 const StudentsWarning=lazy(()=>import("./StudentsWarning").then((module)=>({default:module.StudentsWarning})))
 const StudentAttendnceBox=lazy(()=> (
@@ -24,19 +26,25 @@ const StudentFine=lazy(()=>(
 
 interface HomePageProps{
    
-    tAttendance:TeacherAttendance,
-    clerkId:string
-    TeacherId:number,
+    
      
 }
 const HomePage:React.FC<HomePageProps>=({
-    tAttendance,
-    clerkId,
-    TeacherId,
+    
      
 })=>{
     const today = new Date(); 
-     
+    const {userId,teacherId}=useMyInfo();
+    const [tAttendance,setTeacherAttendance]=useState<TeacherAttendance>()
+     useEffect(()=>{
+      axios.get("/api/selfAttendance/getToday").then((res)=>{
+        setTeacherAttendance(res.data)
+      }).catch((err)=>{
+        console.log("home page.tsx",err)
+      }
+
+      )
+     },[today])
     const formattedDate = format(today, 'EEEE, MMMM do, yyyy');
     const dateToday=format(today ,'dd.MM.yyyy');
     
@@ -97,14 +105,14 @@ h-8"/>
   </div>
 }>
             <AttendanceButton
-            id={tAttendance?.id}
+            id={tAttendance?.id!}
             Arrival={tAttendance?.Arrival||""}
             departure={tAttendance?.departure||""}
-            clerkId={clerkId}
+            clerkId={userId}
             date={tAttendance?.date||dateToday}
             isAbsent={tAttendance?.isAbsent||false}
             isPresent={tAttendance?.isPresent||true}
-            TeacherId={TeacherId}
+            TeacherId={teacherId!}
             />
             </Suspense>
         </div>

@@ -17,8 +17,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useRouter } from "next/navigation"
 import is from "date-fns/locale/is/index.js"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
+import { useMyInfo } from "@/app/hooks/usemyInfo"
+import { useAttendanceData } from "@/app/hooks/useAttendanceData"
  
 export type Attendance = {
   id: number,
@@ -145,7 +147,15 @@ className="text-customLight">Name</div>
         setLoading(false);  
     })
     }
-
+const {teacherId}=useMyInfo();
+const {sections}=useAttendanceData();
+const [disabled,setDisabled]=useState(false);
+useEffect(()=>{
+const filter=sections?.filter((s)=>s.id===row.original.classId)?.[0]?.teacherid;
+if(filter!==teacherId){
+setDisabled(true)
+}
+},[row.original.classId])
       const [isAbsent,setIsAbsent]=useState(row.original.absent);
       const [isPresent,setIsPresent]=useState(row.original.present);
       const [isLeave,setIsLeave]=useState(row.original.leave);
@@ -160,6 +170,7 @@ className="text-customLight">Name</div>
       ><DropdownMenu
       >
 <DropdownMenuTrigger
+disabled={disabled}
 className={cn('gap-x-2 w-full flex-row flex justify-center items-center',
   isAbsent ? 'text-red-600' : isPresent ? 'text-green-600' : isLeave ? 'text-sky-600' : 'text-customLight',
 )}

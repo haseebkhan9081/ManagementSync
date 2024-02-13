@@ -7,6 +7,7 @@ import { FadeIn } from './FadeIn'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { useMyInfo } from '@/app/hooks/usemyInfo'
 interface WarningLabelProps{
     profile:Student&{
         attendances:(Attendance&{
@@ -19,6 +20,8 @@ export const WarningLabel:React.FC<WarningLabelProps> = ({
     profile,
     fetchData
 }) => { 
+
+ const {admin}=useMyInfo()   
 const onclick=()=>{
     setIsLoading(true);
     axios.patch("/api/student/warning/relive",{
@@ -67,6 +70,7 @@ const onclick=()=>{
     as={'div'}>
         <FadeIn delay=''>
     <Button
+      disabled={!admin}
     type='button'
     onClick={onclick}
     className='bg-customTeal/70

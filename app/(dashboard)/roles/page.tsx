@@ -3,10 +3,10 @@ import React, { use, useEffect } from 'react'
 import { clerkClient } from '@clerk/nextjs'
 import { Avatar,AvatarImage } from '@/components/ui/avatar';
 import RoleModal from '@/components/modals/RoleModal';
-import RoleRequest from './_components/RoleRequest';
-import axios from 'axios';
+import RoleRequest from './_components/RoleRequest'; 
 import { User } from '@prisma/client';
 import client from '@/lib/prismadb';
+import { useMyInfo } from '@/app/hooks/usemyInfo';
 const userMap=new Map();
 export default async function Role() {
     const users=await clerkClient.users.getUserList({limit:400});
@@ -33,16 +33,16 @@ export default async function Role() {
         }
         
         console.log("the populated Map",userMap);
-        
+         
   
    
 
     return (
     <div
-    className='p-3 mt-2 bg-slate-50 w-full
+    className='p-3 mt-2 bg-customDark w-full
      '> <div
      className='flex
-     flex-col w-full bg-slate-100 space-y-2 '>
+     flex-col w-full space-y-2 '>
         {users?.map((user)=>(
             <RoleModal
              id={user?.id}
@@ -52,7 +52,7 @@ export default async function Role() {
              email={user?.emailAddresses[0].emailAddress}
              imageUrl={user?.imageUrl}
              teacher={userMap.get(user?.id).teacher}
-             admin={userMap.get(user?.id).admin}
+             admiN={userMap.get(user?.id).admin}
              visitor={userMap.get(user?.id).visitor}
              >
         <RoleRequest

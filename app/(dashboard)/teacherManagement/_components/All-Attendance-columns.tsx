@@ -19,6 +19,7 @@ import { useEffect, useState } from "react"
 import { useTeacherAttendanceDateState } from "@/app/hooks/useTeacherAttendanceDate"
   
 import TimePicker from "@/components/TimePicker"
+import { useMyInfo } from "@/app/hooks/usemyInfo"
  
 export const columns: ColumnDef<TeacherAttendance&{
     teacher:Teacher
@@ -70,7 +71,7 @@ setIsPresent(res.data.isPresent);
 
  
 
- 
+ const {admin}=useMyInfo()
       return <div
       className="relative
     flex
@@ -86,9 +87,11 @@ setIsPresent(res.data.isPresent);
        "
      />}
         <DropdownMenu
+        
          >
   <DropdownMenuTrigger
-  className={cn('text-customLight',
+  disabled={!admin}
+className={cn('text-customLight',
     isPresentG&&"text-green-600",
     isAbsentG&&"text-red-600"
   )}
@@ -154,7 +157,7 @@ setIsPresent(res.data.isPresent);
     }
      
     
-    
+    const {admin}=useMyInfo()
 
     return <div
     className="relative
@@ -171,6 +174,7 @@ setIsPresent(res.data.isPresent);
        "
      />}
       <TimePicker 
+        disabled={!admin}
       fetchData={fetchData}
       value={arrival}
       onChange={setArrival}
@@ -212,7 +216,7 @@ setIsPresent(res.data.isPresent);
      
       
   
-     
+     const {admin}=useMyInfo()
  
      return <div
      className="relative
@@ -229,6 +233,7 @@ setIsPresent(res.data.isPresent);
        "
      />}
        <TimePicker
+         disabled={!admin}
  
        fetchData={fetchData}
        value={departure}

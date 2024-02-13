@@ -1,12 +1,13 @@
  
 import { Button } from '@/components/ui/button';
 import { Transition } from '@headlessui/react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FadeIn } from './FadeIn';
 import { Check, Loader2 } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner'; 
 import { useRouter } from 'next/router';
+import { useMyInfo } from '@/app/hooks/usemyInfo';
 interface FineLabelprops{
     name:string;
   className:string;
@@ -21,10 +22,12 @@ export const FineLabel:React.FC<FineLabelprops> = ({
     name,
     roll
 }) => { 
+  const {admin}=useMyInfo()
 const onClick=(due:boolean,payed:boolean)=>{
    
 axios.patch("/api/student/fine/mark",{
-due:due,payed:payed,
+due:due,
+payed:payed,
 id:roll
 }).then((res)=>{
 
@@ -41,6 +44,7 @@ toast.error("something went wrong");
   
 })
 }
+ 
   const [loading,setIsLoading]=useState(false);
 
   const [loadingp,setIsLoadingp]=useState(false);
@@ -90,6 +94,7 @@ toast.error("something went wrong");
           gap-x-4'>
     <Button
     type='button'
+    disabled={!admin}
      onClick={()=>{
       setIsLoadingp(true);
       onClick(false,true)
@@ -98,6 +103,7 @@ toast.error("something went wrong");
     mt-2'>{loadingp?(<Loader2
     className="animate-spin"/>):(<>Collect <Check/></>)}</Button>
   <Button
+    disabled={!admin}
     type='button'
     onClick={()=>{
       setIsLoading(true);
