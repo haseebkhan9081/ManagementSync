@@ -277,7 +277,7 @@ await axios.patch(`/api/student/${profile?.id}`,{
                      </FormControl>
                     <FormDescription
                     className="text-customLight">
-                    This is student&apos;s public profile picture.
+                    This is student&apos;s Section he is enrolled in
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

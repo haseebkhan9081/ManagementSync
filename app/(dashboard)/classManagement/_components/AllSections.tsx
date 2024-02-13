@@ -8,7 +8,7 @@ import { FadeIn } from '../../_components/FadeIn'
 import { Transition } from '@headlessui/react'
 const Section=lazy(()=>import("./Section").then((module)=>({default:module?.Section})))
 export const AllSections = () => {
-    const {sections,fetchSections}=useAllsectionsState();
+    const {sections,fetchSections,loading}=useAllsectionsState();
     const {ref}=useInView({
         threshold:0.1,
         onChange:(inview)=>{
@@ -22,7 +22,7 @@ export const AllSections = () => {
     <div
     ref={ref}
     > 
-{!sections.length&&<div>
+{loading&&<div>
     <Loader2
     className='text-customTeal
     animate-spin
