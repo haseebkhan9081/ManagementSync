@@ -58,7 +58,7 @@ return row.id;
         <div>Obtained marks</div>
       </div>
     },
-    cell:({row,table,column,getValue})=>{
+    cell:function Cell({row,table}){
  
       let Total=table?.options?.meta?.total;
     const Topic=table?.options?.meta?.topic;

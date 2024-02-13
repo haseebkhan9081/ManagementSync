@@ -41,7 +41,8 @@ export const AllSections = () => {
     className={"flex flex-col space-y-4 w-full"}
     show={sections?.length?true:false}>
 {sections?.map((se,index)=>(
-    <FadeIn delay=''>    <Suspense
+    <FadeIn delay=''
+    key={index}>    <Suspense
     fallback={<div>loading...</div>}>
     <Section
     section={se}

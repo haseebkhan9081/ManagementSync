@@ -51,7 +51,7 @@ export type Student ={
 export const columns: ColumnDef<Student>[] = [
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell:function Cell({row,}) {
       const {admin}=useMyInfo()
       const attendance = row.original
       const router=useRouter();

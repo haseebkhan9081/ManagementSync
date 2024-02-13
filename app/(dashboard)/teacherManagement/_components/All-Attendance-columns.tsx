@@ -41,7 +41,7 @@ export const columns: ColumnDef<TeacherAttendance&{
     accessorKey:'Status',
     header:()=>(<div
     className="text-customLight">Status</div>),
-    cell:({row})=>{
+    cell:function Cell({row,}){
       
 const [isPresentG ,setIsPresent]=useState<boolean>(row.original.isPresent);
 const [isAbsentG,setIsAbsent]=useState<boolean|undefined>(row.original.isAbsent);
@@ -133,7 +133,7 @@ className={cn('text-customLight',
       Arrival
     </div>
    } ,
-   cell:({row})=>{ 
+   cell:function Cell({row,}){ 
   const [arrival,setArrival]=useState<string>(row.original.Arrival);
  const [loading,setLoading]=useState(false);
  
@@ -190,7 +190,7 @@ className={cn('text-customLight',
        Departure
      </div>
     } ,
-    cell:({row})=>{
+    cell:function Cell({row,}){
      const {AttendanceDate}=useTeacherAttendanceDateState()
   const [departure,setDeparture]=useState<string>(row.original.departure);
  const [loading,setLoading]=useState(false);

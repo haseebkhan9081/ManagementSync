@@ -48,7 +48,7 @@ export const columns: ColumnDef<Teacher>[] = [
     accessorKey:'Status',
     header:()=>(<div
     className="text-customLight">Status</div>),
-    cell:({row})=>{
+    cell:function Cell({row}){
       const {AttendanceDate}=useTeacherAttendanceDateState()
  
 const [isPresentG ,setIsPresent]=useState<boolean|undefined>(undefined);
@@ -151,7 +151,7 @@ fetchData(undefined,undefined);
       Arrival
     </div>
    } ,
-   cell:({row})=>{
+   cell:function Cell({row}){
     const {AttendanceDate}=useTeacherAttendanceDateState()
  const [arrival,setArrival]=useState<string>("");
  const [loading,setLoading]=useState(false);
@@ -219,7 +219,7 @@ fetchData(undefined,undefined);
        Departure
      </div>
     } ,
-    cell:({row})=>{
+    cell:function Cell({row,}){
      const {AttendanceDate}=useTeacherAttendanceDateState()
   const [departure,setDeparture]=useState<string>("");
  const [loading,setLoading]=useState(false);

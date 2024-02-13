@@ -132,8 +132,8 @@ const {admin}=useMyInfo()
         </div>   
   <Transition.Root
   show={!loading}>      
- {teachers?.map((t)=>(
-   <FadeIn delay=" ">
+ {teachers?.map((t,i)=>(
+   <FadeIn delay=" " key={i}>
    <Suspense
    fallback={<div>loading...</div>}>
    <TeacherBox

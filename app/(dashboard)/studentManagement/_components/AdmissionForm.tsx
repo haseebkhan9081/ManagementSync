@@ -197,7 +197,7 @@ await axios.patch(`/api/student/${profile?.id}`,{
               render={({ field }) => (
                 <FormItem>
                   <FormLabel
-                  className="text-customTeal">Father's Name</FormLabel>
+                  className="text-customTeal">Father&apos;s Name</FormLabel>
                   <FormControl>
                     <Input
                     className="text-customGray
@@ -245,7 +245,7 @@ await axios.patch(`/api/student/${profile?.id}`,{
                     <FormDescription
                     className="text-customLight">
 
-                    This is student's public profile picture.
+                    This is student&apos;s public profile picture.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -277,7 +277,7 @@ await axios.patch(`/api/student/${profile?.id}`,{
                      </FormControl>
                     <FormDescription
                     className="text-customLight">
-                    This is student's public profile picture.
+                    This is student&apos;s public profile picture.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

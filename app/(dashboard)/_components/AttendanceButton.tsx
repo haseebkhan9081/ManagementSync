@@ -3,7 +3,7 @@ import { TeacherAttendance } from '@prisma/client';
 import axios from 'axios';
 import { AlarmClockCheck, AlarmClockOff, AlertTriangle, Check, CheckCircle2, Clock10Icon, CrossIcon, Dot, Loader2, X } from 'lucide-react'
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 interface AttendanceButtonProps{
   id: number;
@@ -112,22 +112,21 @@ const AttendanceButton:React.FC<AttendanceButtonProps>=({
     fetchLocation();
   }, []);
       
-      function calculateDistance(lat1:number, lon1:number
-        , lat2:number, lon2:number) {
-        const R = 6371; // Radius of the Earth in kilometers
-        const dLat = deg2rad(lat2 - lat1);
-        const dLon = deg2rad(lon2 - lon1);
-      
-        const a =
-          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-      
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      
-        const distance = R * c; // Distance in kilometers
-      
-        return distance;
-      }
+  const calculateDistance = useCallback((lat1: number, lon1: number, lat2: number, lon2: number) => {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+  
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  
+    const distance = R * c; // Distance in kilometers
+  
+    return distance;
+  }, []);
       
       function deg2rad(deg:number) {
         return deg * (Math.PI / 180);

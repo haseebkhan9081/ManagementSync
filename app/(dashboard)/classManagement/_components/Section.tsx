@@ -262,8 +262,8 @@ alt=''
     as='div'
     className={"flex mt-4 flex-col space-y-2"}
     show={tap}>
-{Students?.map((st)=>(
-<FadeIn delay=''>
+{Students?.map((st,i)=>(
+<FadeIn delay='' key={i}>
     <div
     className='p-3
     ring-1

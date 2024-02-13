@@ -40,6 +40,7 @@ const [showLeaves,setShowLeaves]=useState(false);
          flex-row gap-x-6'>Total Leaves: {
             classes.map((cla,index)=>(
                 <div
+                key={index}
                 style={{
                     color:color[index]
                 }}>{cla.attendence[cla.attendence.length-1]?.countofLeaves}</div>
@@ -52,6 +53,7 @@ const [showLeaves,setShowLeaves]=useState(false);
          flex-row gap-x-6'>Total Absents:{
             classes.map((cla,index)=>(
                 <div
+                key={index}
                 style={{
                     color:color[index]
                 }}>{cla.attendence[cla.attendence.length-1]?.countOfAbsents}</div>
@@ -64,6 +66,7 @@ const [showLeaves,setShowLeaves]=useState(false);
          flex-row gap-x-6'>Total Presents:{
             classes.map((cla,index)=>(
                 <div
+                key={index}
                 style={{
                     color:color[index]
                 }}>{cla.attendence[cla.attendence.length-1]?.countofPresent}</div>
@@ -76,6 +79,7 @@ const [showLeaves,setShowLeaves]=useState(false);
          flex-row gap-x-6'>Total Attendance:{
             classes.map((cla,index)=>(
                 <div
+                key={index}
                 style={{
                     color:color[index]
                 }}>{cla.attendence?.length}</div>
@@ -124,6 +128,7 @@ show={tap}>
          flex-row gap-x-6'>Total Leaves:{
             classesYear.map((cla,index)=>(
                 <div
+                key={index}
                 style={{
                     color:color[index]
                 }}>{cla.attendence[cla.attendence.length-1].countofLeavesYear}</div>
@@ -136,6 +141,7 @@ show={tap}>
          flex-row gap-x-6'>Total Absents:{
             classesYear.map((cla,index)=>(
                 <div
+                key={index}
                 style={{
                     color:color[index]
                 }}>{cla.attendence[cla.attendence.length-1].countOfAbsentsYear}</div>
@@ -148,6 +154,7 @@ show={tap}>
          flex-row gap-x-6'>Total Presents:{
             classesYear.map((cla,index)=>(
                 <div
+                key={index}
                 style={{
                     color:color[index]
                 }}>{cla.attendence[cla.attendence.length-1]?.countofPresentYear}</div>
@@ -160,6 +167,7 @@ show={tap}>
          flex-row gap-x-6'>Total Attendance:{
             classesYear.map((cla,index)=>(
                 <div
+                key={index}
                 style={{
                     color:color[index]
                 }}>{cla.attendence?.length}</div>
@@ -214,9 +222,9 @@ flex-col
 w-full
 space-y-4'>
 {classes.map((cla,index)=>(
-    cla.attendence.map((p)=>(
+    cla.attendence.map((p,index)=>(
 <div
- 
+ key={index}
     className='
     
     p-3

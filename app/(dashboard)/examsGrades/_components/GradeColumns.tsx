@@ -75,7 +75,7 @@ export const columns: ColumnDef<Grade>[] = [
         accessorFn:(row)=>{
       return row.value
         },
-        cell:({row,table,column,getValue})=>{
+        cell:function Cell({row}){
           //cheking if this section belongs to me
           const {teacherId}=useMyInfo();
           const {sections}=useAttendanceData();
@@ -85,7 +85,7 @@ export const columns: ColumnDef<Grade>[] = [
           if(filter!==teacherId){
           setDisabled(true)
           }
-          },[row.original.classId])
+          },[row.original.classId,sections,teacherId])
 
 
 

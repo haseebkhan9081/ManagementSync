@@ -94,7 +94,9 @@ className={""}
           <Legend />
             {filtered.map((cla,index)=>{
 color[index]=colorScale(cla.name+" "+cla.subject) as string
-return <Bar dataKey={cla.name+" "+cla.subject} fill={colorScale(cla.name+" "+cla.subject) as string} textAnchor='hi'>
+return <Bar 
+key={index}
+dataKey={cla.name+" "+cla.subject} fill={colorScale(cla.name+" "+cla.subject) as string} textAnchor='hi'>
  
             </Bar>
 })}
