@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 import { auth } from "@clerk/nextjs";
 import db from "@/lib/prismadb";
 import { NextResponse } from "next/server"; 
-export   async function POST( 
+export async function POST( 
     req:Request
 ){
     try{
@@ -16,9 +16,7 @@ export   async function POST(
               sections,
         }=await req.json();
         const {userId}=auth();
-    if(!userId){
-        console.log(userId);
-        console.log("unauthorized");
+    if(!userId){ 
        return new NextResponse("unauthorized",{status:401})
     } 
    
@@ -36,7 +34,7 @@ export   async function POST(
   
    return  NextResponse.json(newStudent);
   
-}catch(err:any){
+}catch(err){
     console.log("[Error at /api/student]",err);
     return new NextResponse("Internal Server Error [api/Student]",{status:500})
 }
