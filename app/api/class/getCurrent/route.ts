@@ -26,10 +26,6 @@ const clas= await client.class.findMany({
     orderBy:{
         id:"desc"
     },
-    cacheStrategy:{
-        swr:60,
-        ttl:60
-    }
 });
 
  if(clas[0]){
