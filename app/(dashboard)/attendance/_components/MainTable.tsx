@@ -16,7 +16,7 @@ const MainTable:React.FC<MainTableProps>=({
      
 })=> {
   const [classId,setClassId]=useState<Record<string,any>>({value:0,label:"please select a section to view attendance"})
-   const {sections,fetchSections}=useAttendanceData()
+   const {sections,fetchSections,loading}=useAttendanceData()
 const [attendance,setAttendance]=useState<Attendance[]>([])
 const fetchData=()=>{
 fetchSections(); 
@@ -56,7 +56,7 @@ ref={ref}
          z-50
          bg-customGray
     ">
-      {(sections?.length===0)&&<Loader2
+      {loading&&<Loader2
       className="animate-spin
       text-customTeal
       w-4 h-4"/>}
