@@ -1,35 +1,31 @@
+export const dynamic = 'force-dynamic';
 import client from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-export async function GET(
-    
-){
+export async function GET() {
+  try {
+    const { userId } = auth();
 
-try{
-const {userId}=auth();
-
-if(!userId){
-    return new NextResponse("Unauthorized",{status:400});
-}
-  
-const clas= await client.class.findMany({
-    include:{
-        students:true,
-        teachers:true
-    },
-    orderBy:{
-        id:"desc"
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 400 });
     }
-});
 
- 
-
-return NextResponse.json(clas);
-}catch(err){
-    console.log("[ERROR /api/class/getAll]",err);
-return new NextResponse("internal server erro",{status:500});
-
+    const clas = await client.class.findMany({
+      include: {
+        students: true,
+        teachers: true
+      },
+      orderBy: {
+        id: "desc"
+      }
+    });
+if(!clas[0]){
+    return new NextResponse("No class found",{status:400});
 }
-
+    return NextResponse.json(clas);
+  } catch (err) {
+    console.log("[ERROR /api/class/getAll]", err);
+    return new NextResponse("internal server error", { status: 500 });
+  }
 }
