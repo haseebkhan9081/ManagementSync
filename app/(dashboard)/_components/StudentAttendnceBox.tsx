@@ -195,7 +195,9 @@ space-y-2'>
     show={tap}>
 
     {absentProfile?.map((profile,i)=>(
-         <FadeIn delay='delay-[500ms]'>
+         <FadeIn delay='delay-[500ms]'
+         key={i}
+         >
         <Suspense
         fallback={
             <SkeletonTheme

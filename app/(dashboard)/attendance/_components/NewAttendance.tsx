@@ -27,7 +27,7 @@ setFilter(filter);
 const st=filter?.filter((section)=>section?.id===classId?.value)?.[0]?.students;
  setStudents(st);
  console.log(st);
-},[classId,teacherId]) 
+},[classId,teacherId,sections]) 
   return (
     <div>
       <div

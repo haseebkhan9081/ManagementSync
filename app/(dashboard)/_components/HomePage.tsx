@@ -5,7 +5,7 @@ const AttendanceButton=lazy(()=> (
     ); 
 import { useUser } from "@clerk/nextjs";
 import {   TeacherAttendance } from "@prisma/client";
- import { lazy,Suspense, useEffect, useState } from "react"; 
+ import { lazy,Suspense, useEffect, useMemo, useState } from "react"; 
 import { useRouter } from "next/navigation";
    
  import { Loader2 } from "lucide-react";  
@@ -33,7 +33,7 @@ const HomePage:React.FC<HomePageProps>=({
     
      
 })=>{
-    const today = new Date(); 
+  const today = useMemo(() => new Date(), []);
     const {userId,teacherId}=useMyInfo();
     const [tAttendance,setTeacherAttendance]=useState<TeacherAttendance>()
      useEffect(()=>{

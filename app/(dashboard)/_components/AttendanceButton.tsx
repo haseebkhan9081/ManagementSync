@@ -139,7 +139,7 @@ if(distance<=0.3){
 }else{
     setInRange(false)
 }
-      },[distance])
+      },[distance,calculateDistance])
  const hadleClockIn=()=>{
   if(!inRange){
     toast.error("You are not in range to Clock-in");

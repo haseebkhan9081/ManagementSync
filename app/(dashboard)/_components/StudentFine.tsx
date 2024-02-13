@@ -176,8 +176,8 @@ onClick={()=>setTap(false)}/>
       as={'div'}
       className={"space-y-2"}>
       
-{tap&&fineData?.profile?.map((profile)=>(
-  <FadeIn delay='delay-[500ms]'>
+{tap&&fineData?.profile?.map((profile,i)=>(
+  <FadeIn delay='delay-[500ms]' key={i}>
   <Suspense
   fallback={
 

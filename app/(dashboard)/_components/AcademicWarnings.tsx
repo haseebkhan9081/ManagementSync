@@ -104,7 +104,9 @@ h-8'/>
     className="space-y-2
     w-full">
     {tap&& profiles?.map((p,i)=>(
-      <FadeIn delay="delay-[500ms]">
+      <FadeIn delay="delay-[500ms]"
+      
+      key={i}>
       <Suspense
       fallback={
 

@@ -130,7 +130,7 @@ flex-row gap-x-2">
     className="space-y-2
     w-full">
     {tap&&absentProfiles?.map((abse,i)=>(
-      <FadeIn delay="delay-[500ms]">
+      <FadeIn delay="delay-[500ms]" key={i}>
       <Suspense
       fallback={
 
@@ -148,7 +148,7 @@ className='rounded-lg  w-full h-full'/>
       </FadeIn>
     ))}
     {tap&&leaveProfiles?.map((abse,i)=>(
-      <FadeIn delay="delay-[500ms]">
+      <FadeIn delay="delay-[500ms]" key={i}>
       <Suspense
       fallback={
 
