@@ -20,12 +20,12 @@ const ReactQuilll=useMemo(()=>dynamic(()=>import("react-quill"),{ssr:false}),[])
 
 return (
 <div className="bg-customLight
-h-[120px]
+h-full
 w-full">
 <ReactQuilll
 onFocus={()=>setBlur(false)}
 onBlur={()=>setBlur(true)}
-placeholder="Briefly summarize the topic You discussed in class today."
+placeholder="What did you teach today....."
 theme="snow"
 
 value={value}
