@@ -43,7 +43,7 @@ const formSchema = z.object({
     message: "phone must be at least 11 characters.",
   }),
   adress: z.string(),
-  sections:z.array(z.record(z.any())).optional();
+  sections:z.array(z.record(z.any())).optional(),
   
 })
 interface AdmissionFormProps{
