@@ -28,11 +28,14 @@ export async function POST(
    Contact:phone,
    Address:adress,
    classes:{
-    connect:sections.map((sect:any)=>({id:sect.value}))
+    connect:sections?.map((sect:any)=>({id:sect?.value}))
    }
    }});
-  
-   return  NextResponse.json(newStudent);
+  if(newStudent){
+      return  NextResponse.json(newStudent);
+       }
+
+return new NextResponse("Could not create student", {status:403})
   
 }catch(err){
     console.log("[Error at /api/student]",err);
