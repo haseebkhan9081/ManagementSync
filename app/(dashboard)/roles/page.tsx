@@ -1,66 +1,83 @@
-import { Users } from 'lucide-react'
-import React, { use, useEffect } from 'react'
+ "use client"
+import { Loader2, Users } from 'lucide-react'
+import React, { use, useEffect, useState } from 'react'
 import { clerkClient } from '@clerk/nextjs'
 import { Avatar,AvatarImage } from '@/components/ui/avatar';
 import RoleModal from '@/components/modals/RoleModal';
 import RoleRequest from './_components/RoleRequest'; 
 import { User } from '@prisma/client';
-import client from '@/lib/prismadb';
-import { useMyInfo } from '@/app/hooks/usemyInfo';
+import client from '@/lib/prismadb'; 
+import { useAllUsers } from '@/app/hooks/useAllUsers';
+import axios from 'axios';
+import { useInView } from 'react-intersection-observer';
 const userMap=new Map();
-export default async function Role() {
-    const users=await clerkClient.users.getUserList({limit:400});
-    console.log("here is the total users",users?.length);
-    for(const user of users){
-        const dbuser:User|null=await client.user.findUnique({
-            where:{
-                clerkId:user?.id,
-            },
-            
-        });
-        if(dbuser){
-        userMap.set(user.id,{admin:dbuser.admin,
-            teacher:dbuser.teacher,
-            visitor:dbuser.visitor
-        });
-        }else{
-            userMap.set(user.id,{  
-                admin: false,
-                teacher: false,
-                visitor: false,
-            })
-        }
-        }
-        
-        console.log("the populated Map",userMap);
-         
-  
-   
+export default  function Role() {
+    const [users,setUsers]=useState<User[]>([])
+    const [loading,setloading]=useState(false);
+const fetchData=()=>{
+    setloading(true)
+    axios.get("/api/user/all").then((res)=>{
+        setUsers(res.data);
+    }   
+    ).catch((err)=>{
+        console.log("err at pages.tsx roles",err);
+    }).finally(()=>{    
+        setloading(false);
+    }
+    )
 
+}
+const {ref}=useInView({
+    threshold:0.5,
+    onChange:(inview)=>{
+        if(inview){
+            fetchData()
+        }
+    }
+       
+   
+    ,
+    triggerOnce:true,
+})
     return (
     <div
+    ref={ref}
     className='p-3 mt-2 bg-customDark w-full
      '> <div
      className='flex
      flex-col w-full space-y-2 '>
-        {users?.map((user)=>(
+        {loading&&
+        <div
+        className='w-full
+        flex
+        flex-col
+        justify-center
+        items-center'>
+        <Loader2 className='
+        animate-spin
+        text-customTeal
+        '/>
+        </div>
+}        {users?.map((user)=>(
             <RoleModal
-             id={user?.id}
+             id={user?.clerkId||""}
              key={user?.id}
              firstName={user?.firstName!}
              lastName={user?.lastName!}
-             email={user?.emailAddresses[0].emailAddress}
-             imageUrl={user?.imageUrl}
-             teacher={userMap.get(user?.id).teacher}
-             admiN={userMap.get(user?.id).admin}
-             visitor={userMap.get(user?.id).visitor}
+             email={user?.emailAddress||""}
+             imageUrl={user?.imageUrl||""}
+             teacher={user?.teacher}
+             admiN={user?.admin}
+             visitor={user?.visitor}
              >
+                <div>
         <RoleRequest
         firstName={user?.firstName!}
         lastName={user?.lastName!}
-        email={user?.emailAddresses[0].emailAddress}
-        imageUrl={user?.imageUrl}
+        email={user?.emailAddress||""}
+        imageUrl={user?.imageUrl||""}
         />
+        </div>
                     </RoleModal>
         ))}
         </div></div>

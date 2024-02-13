@@ -6,6 +6,7 @@ type MyInfo = {
   admin:boolean,
   userId:string,
   visitor:boolean,
+  setUser:(a:boolean,t:boolean,v:boolean,u:string)=>void;
   teacher:boolean,
  teacherId:number|null,
 fetchInfo:()=>void;
@@ -13,6 +14,9 @@ fetchInfo:()=>void;
 
 export const useMyInfo = create<MyInfo>((set) => ({
   teacherId:null,
+  setUser:(a,t,v,u)=>{
+  set({admin:a, teacher:t, visitor:v,userId:u})
+  },
   userId:"",
   admin:false,
   visitor:false,

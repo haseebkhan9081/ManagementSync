@@ -28,7 +28,7 @@ export async function GET(req: Request,
        
    
       return NextResponse.json({
-        teacherId:teacher?.id,
+        teacherId:teacher?.id||0,
         teacher:dbuser?.teacher,
         visitor:dbuser?.visitor,
         admin:dbuser?.admin,

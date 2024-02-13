@@ -15,6 +15,12 @@ model User {
   admin   Boolean
   teacher Boolean
   visitor Boolean
+  firstName String?
+  lastName String?
+  emailAddress String?
+  imageUrl String?
+  
+
 }
 
 // schema.prisma

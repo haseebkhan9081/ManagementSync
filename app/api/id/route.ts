@@ -38,18 +38,7 @@ const t=await client.teacher.findUnique({
         clerkId:id
     }
 });
-await client.teacher.update({
-    where:{
-        clerkId:id
-    },
-    data:{
-        firstName,
-           lastName,
-           imageUrl,
-           clerkId:id,
-           email:email
-    }
-})
+
 if(!t){
     const te=await client.teacher.create({
         data:{
@@ -64,6 +53,19 @@ if(!t){
     if(te){
         console.log("teacher create with clerkId",te.clerkId)
     }
+    }else{
+        await client.teacher.update({
+            where:{
+                clerkId:id
+            },
+            data:{
+                firstName,
+                   lastName,
+                   imageUrl,
+                   clerkId:id,
+                   email:email
+            }
+        })
     }
 }
 let holder:User;
