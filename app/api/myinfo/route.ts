@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import client from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { DevBundlerService } from "next/dist/server/lib/dev-bundler-service";
@@ -34,7 +35,7 @@ export async function GET(req: Request,
         clerkId:userId,
       } );
     } catch (err) {
-      console.log("[ERROR api/student/[studentid] - GET]", err);
+      console.log("[ERROR api/myinfo]", err);
       return new NextResponse("Internal Server error", { status: 500 });
     }
   }

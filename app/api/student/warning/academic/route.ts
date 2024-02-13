@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server"; 
 import client from "@/lib/prismadb";
