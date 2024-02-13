@@ -32,8 +32,7 @@ const clas= await client.class.findMany({
  if(clas[0]){
     return NextResponse.json(clas);
 }
-return new NextResponse("No class found",{status:400}); 
-
+return NextResponse.json([]);
  
 }catch(err){
     console.log("[ERROR /api/class/getcurrent]",err);

@@ -68,7 +68,11 @@ setloading(false)
       flex
       w-full
       flex-col">
-      <Select
+         {(loading)&&<Loader2
+      className="animate-spin
+      text-customTeal
+      w-4 h-4"/>}
+     <div> <Select
       value={classId}
       options={sections?.map((section)=>(
         {
@@ -82,6 +86,7 @@ setloading(false)
          isSingle={true}
          label="Section"
       />
+      </div>
       </div>
       </div>
 

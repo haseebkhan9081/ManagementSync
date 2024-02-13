@@ -22,7 +22,7 @@ const MainTable:React.FC<MainTableProps>=({
 })=> {
   const {teacherId}=useMyInfo()
   const [classId,setClassId]=useState<Record<string,any>>({value:0,label:"please select a section to view attendance"})
-  const {sections,fetchSections}=useAttendanceData() 
+  const {sections,fetchSections,loading}=useAttendanceData() 
 const [total,setTotal]=useState<number>()
 const [testName,setTestName]=useState("");
 const [filter,setFilter]=useState<Class[]>([]);
@@ -75,7 +75,7 @@ const st=filter?.filter((section)=>section?.id===classId?.value)?.[0]?.students;
       className="w-[300px]
       flex
       flex-col">
-         {(sections?.length===0)&&<Loader2
+         {(loading)&&<Loader2
       className="animate-spin
       text-customTeal
       w-4 h-4"/>}
