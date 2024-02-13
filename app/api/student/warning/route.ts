@@ -1,5 +1,5 @@
-import { StudentAttendnceBox } from "@/app/(dashboard)/_components/StudentAttendnceBox";
-import client from "@/lib/prismadb";
+export const dynamic = 'force-dynamic';
+ import client from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { format } from "date-fns";
 import { NextResponse } from "next/server";

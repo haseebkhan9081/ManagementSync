@@ -1,4 +1,4 @@
- 
+export const dynamic = 'force-dynamic'; 
 import { auth } from "@clerk/nextjs"; 
 import { NextResponse } from "next/server";
 import { Student } from "@prisma/client"; 
