@@ -74,6 +74,7 @@ bg-customLight/25
   flex
   flex-col
   '>
+    <div>
 <Loader2
 className='
 z-50
@@ -81,6 +82,7 @@ animate-spin
 text-customTeal
 w-8
 h-8'/>
+</div>
   </div>}
     <div
     className='

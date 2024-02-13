@@ -51,9 +51,16 @@ export default function RootLayout({
       w-full
       h-full
       ">
-        <UserButton
+       <div
+       className="z-50
+       
+        ">
+       <UserButton
+      
+       />
+        </div> 
          
-        /></SheetTitle>
+        </SheetTitle>
       <SheetDescription>
          <Navigation
          setOpen={setOpen}

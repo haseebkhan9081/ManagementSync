@@ -36,7 +36,7 @@ export   async function GET(
    });
     
    if(!students.length){
-   return new NextResponse("not found",{status:404});
+   return NextResponse.json([]);
    }
     
  
