@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { CircularProgress } from '@mui/material';
 import { Attendance, Class, Student, TeacherAttendance } from '@prisma/client';
 import { ChevronDown, ChevronUp, Copy, Loader2 } from 'lucide-react';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { StudentLabel } from './StudentLabel';
@@ -22,52 +22,39 @@ import { LeaveLabel } from './LeaveLabel';
 
     const [leave,setLeave]=useState<number>(0);
     const [leaveProfile,setleaveProfile]=useState<TeacherAttendance[]>([]);
-    useEffect(()=>{
-      axios.get("/api/selfAttendance")
-      .then((response)=>{
-          console.log(response.data)
-        setTotal(response.data.total);
-        setPresent(response.data.present)
-        setLeave(response.data.leave);
-        setleaveProfile(response.data.leaveProfile)
-      setIsFetched(true);
-      }).catch((err)=>{
-          console.log("[err management_sync/app/(dashboard)/_components/TeacherAttendanceBox.tsx ]",err);
-      })
-    },[])
-    // const fetchData=()=>{
-    //     axios.get("/api/selfAttendance")
-    //     .then((response)=>{
-    //         console.log(response.data)
-    //       setTotal(response.data.total);
-    //       setPresent(response.data.present)
-    //       setLeave(response.data.leave);
-    //       setleaveProfile(response.data.leaveProfile)
-    //     setIsFetched(true);
-    //     }).catch((err)=>{
-    //         console.log("[err management_sync/app/(dashboard)/_components/TeacherAttendanceBox.tsx ]",err);
-    //     })
-    // }
-//     const [ref, inView] = useInView({
-//         triggerOnce: true, // Only trigger once
-//         threshold: 0.1, // Trigger the callback when 50% of the element is in the viewport
-//         onChange: (inView) => {
-//             if (inView) {
-//                  fetchData();
+    const fetchData=()=>{
+        axios.get("/api/selfAttendance")
+        .then((response)=>{
+            console.log(response.data)
+          setTotal(response.data.total);
+          setPresent(response.data.present)
+          setLeave(response.data.leave);
+          setleaveProfile(response.data.leaveProfile)
+        setIsFetched(true);
+        }).catch((err)=>{
+            console.log("[err management_sync/app/(dashboard)/_components/TeacherAttendanceBox.tsx ]",err);
+        })
+    }
+    const [ref, inView] = useInView({
+        triggerOnce: true, // Only trigger once
+        threshold: 0.1, // Trigger the callback when 50% of the element is in the viewport
+        onChange: (inView) => {
+            if (inView) {
+                 fetchData();
                 
 
-//             } 
-//     }
-// }
+            } 
+    }
+}
     
-//     );
+    );
 const [tap,setTap]=useState(false);
 
 
 const [isfetched,setIsFetched]=useState(false);
 
   return (<div
-    
+  ref={ref}
   
   className='w-full
   
