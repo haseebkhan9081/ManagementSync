@@ -10,21 +10,11 @@ import GradeMainTable from "./GradeMainTable";
 import { Check, CheckCheck } from "lucide-react";
 
 interface MainProps{
-   sections: (Class&{
-        students:Student[];
-              attendence:(Attendance&{
-                student:Student;
-                class:Class;
-              })[];
-              Grade:(Grade&{
-                class:Class,
-                student:Student
-              })[];
-      })[]|[];
+   
 }
 
 const Main:React.FC<MainProps>=({
-    sections
+     
 })=>{
 const [isNew,setIsNew]=useState(false);
      
@@ -94,8 +84,8 @@ duration-500">
       "/>
       </div>
      <GradeMainTable
-     //@ts-ignore
-     sections={sections as MainProps['sections']}
+     
+      
      />
      </div>
       </div>

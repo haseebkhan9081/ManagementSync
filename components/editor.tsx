@@ -6,21 +6,28 @@ import "react-quill/dist/quill.snow.css";
 
 interface EditorProps{
     onChange:(value:string)=>void;
-    value:string
+    value:string,
+    setBlur:(v:boolean)=>void
 }
 
 export const Editor=({
 onChange,
+setBlur,
 value
 }:EditorProps)=>{
 const ReactQuilll=useMemo(()=>dynamic(()=>import("react-quill"),{ssr:false}),[]);
 
 
 return (
-<div className="bg-white
-w-[300px]">
+<div className="bg-customLight
+h-full
+w-full">
 <ReactQuilll
+onFocus={()=>setBlur(false)}
+onBlur={()=>setBlur(true)}
+placeholder="Briefly summarize the topic You discussed in class today."
 theme="snow"
+
 value={value}
 onChange={onChange}
 />

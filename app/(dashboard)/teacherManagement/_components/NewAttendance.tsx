@@ -1,5 +1,5 @@
 import DatePicker from '@/components/datePicker'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DataTable } from './New_Attendance_data-table';
 import { Teacher, columns } from './NewAttendanceColumns';
 import { useTeacherAttendanceDateState } from '@/app/hooks/useTeacherAttendanceDate';
@@ -13,7 +13,11 @@ interface NewAttendanceprops{
 export const NewAttendance:React.FC<NewAttendanceprops> = ({
   teachers
 }) => {
-  const {setAttendanceDate}=useTeacherAttendanceDateState()
+  const {setAttendanceDate}=useTeacherAttendanceDateState(
+  
+  )
+   
+ 
   const [date,setDate]=useState<Date>(new Date());
   return (
     <div
@@ -38,7 +42,6 @@ export const NewAttendance:React.FC<NewAttendanceprops> = ({
 setDate(v)
 setAttendanceDate(format(v,'dd.MM.yyyy'))
       }}
- 
       />
       <DataTable
 

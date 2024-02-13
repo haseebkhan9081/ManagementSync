@@ -2,6 +2,43 @@ import client from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
+
+export async function GET(req:Request){
+
+    try{
+ 
+const {userId}=auth();
+ 
+if(!userId){
+    return new NextResponse("UnAuthorized",{status:400});
+}
+
+ const all=await client.teacherAttendance.findMany(
+    {include:{
+        teacher:true
+    },
+    orderBy:{
+        date:"desc"
+    }
+
+}
+ );
+
+ return NextResponse.json(all);
+}catch(Err:any){
+        console.log("[ERROR AT api/teacherAttendance GET]",Err);
+        return new NextResponse("INternal Server error",{status:500})
+    }
+}
+
+
+
+
+
+
+
+
+
 export async function POST(req:Request){
 
     try{

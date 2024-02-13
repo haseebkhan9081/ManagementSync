@@ -49,7 +49,8 @@ w-full'>
    className='flex
    flex-col
    text-lg'> 
-  <div>{profile?.firstName+" "+profile?.lastName}</div> 
+  <div
+  className='font-bold'>{profile?.firstName+" "+profile?.lastName}</div> 
   <div>{profile?.email}</div></div>
 
 </div>

@@ -1,12 +1,10 @@
 "use client"
 import { ArrowUpDown, Check, Loader2, MoreHorizontal, X } from "lucide-react"
-
-import { Preview } from "@/components/preview"
+ 
 import { cn } from "@/lib/utils"
-import { Class, Student,  TeacherAttendance } from "@prisma/client"
+import { Class, Student,  Teacher,  TeacherAttendance } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
-import { format, parse } from "date-fns"
-import { Button } from "@/components/ui/button"
+
 
 import {
   DropdownMenu,
@@ -15,44 +13,37 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useRouter } from "next/navigation"
+} from "@/components/ui/dropdown-menu" 
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useTeacherAttendanceDateState } from "@/app/hooks/useTeacherAttendanceDate"
-import { useInView } from "react-intersection-observer"
-import { toast } from "sonner"
+  
 import TimePicker from "@/components/TimePicker"
-import { attachReactRefresh } from "next/dist/build/webpack-config"
-export type Teacher = {
-  id  :number  
-  firstName  :        string
-  lastName           :string 
-  clerkId :           string                
-  imageUrl          : string
-  email  :string  
-}
  
-export const columns: ColumnDef<Teacher>[] = [
+export const columns: ColumnDef<TeacherAttendance&{
+    teacher:Teacher
+}>[] = [
   {
-    accessorKey:"firstName",
+    accessorKey:"Name",
+    accessorFn:(row)=>{
+        return row.teacher.firstName
+      },
     header:(row)=>(<div
     className="text-customLight">Name</div>),
     cell:({row})=>{
-      const lastName=row.original.lastName;
+      const lastName=row.original.teacher.lastName;
 
       return <div
-      className="text-customLight">{row.original.firstName+" "+lastName}</div>
+      className="text-customLight">{row.original.teacher.firstName+" "+lastName}</div>
     }
   },{
     accessorKey:'Status',
     header:()=>(<div
     className="text-customLight">Status</div>),
     cell:({row})=>{
-      const {AttendanceDate}=useTeacherAttendanceDateState()
- 
-const [isPresentG ,setIsPresent]=useState<boolean|undefined>(undefined);
-const [isAbsentG,setIsAbsent]=useState<boolean|undefined>(undefined);
+      
+const [isPresentG ,setIsPresent]=useState<boolean>(row.original.isPresent);
+const [isAbsentG,setIsAbsent]=useState<boolean|undefined>(row.original.isAbsent);
 const [loading,setLoading]=useState(false);
 
 const fetchData=(isAbsent:boolean|undefined,isPresent:boolean|undefined)=>{
@@ -63,8 +54,8 @@ const fetchData=(isAbsent:boolean|undefined,isPresent:boolean|undefined)=>{
     arrival:"",
     departure:"",
     isAbsent:isAbsent ,
-    clerkId:row.original.clerkId,
-    date:AttendanceDate,
+    clerkId:row.original.teacher.clerkId,
+    date:row.original.date,
   }).then((res)=>{
     console.log("the response",res.data);
 setIsAbsent(res.data.isAbsent);
@@ -75,28 +66,16 @@ setIsPresent(res.data.isPresent);
     setLoading(false);
   })
 }
-const {ref}=useInView({
-  triggerOnce:true,
-  threshold:0.1,
-  onChange:(inview)=>{
-    if(inview){
-      fetchData(undefined,undefined);
-    }
-  }
-})
+ 
 
-useEffect(()=>{
-setIsAbsent(undefined)
-setIsPresent(undefined)
-fetchData(undefined,undefined);
-},[AttendanceDate])
+ 
 
  
       return <div
       className="relative
     flex
     flex-row"
-      ref={ref}>
+       >
          {loading&&<Loader2
      className="text-customTeal
      animate-spin
@@ -151,9 +130,8 @@ fetchData(undefined,undefined);
       Arrival
     </div>
    } ,
-   cell:({row})=>{
-    const {AttendanceDate}=useTeacherAttendanceDateState()
- const [arrival,setArrival]=useState<string>("");
+   cell:({row})=>{ 
+  const [arrival,setArrival]=useState<string>(row.original.Arrival);
  const [loading,setLoading]=useState(false);
  
  
@@ -163,8 +141,8 @@ fetchData(undefined,undefined);
         TeacherId:row.original.id,
         arrival:arrival,
         departure:"",
-        clerkId:row.original.clerkId,
-        date:AttendanceDate,
+        clerkId:row.original.teacher.clerkId,
+        date:row.original.date,
       }).then((res)=>{
         console.log("the response",res.data);
    setArrival(res.data.Arrival) 
@@ -174,26 +152,15 @@ fetchData(undefined,undefined);
         setLoading(false);
       })
     }
-    const {ref}=useInView({
-      triggerOnce:true,
-      threshold:0.1,
-      onChange:(inview)=>{
-        if(inview){
-          fetchData();
-        }
-      }
-    })
+     
     
-    useEffect(()=>{
-     setArrival("")
-     fetchData();
-      },[AttendanceDate])
+    
 
     return <div
     className="relative
     flex
     flex-row"
-    ref={ref}>
+     >
       {loading&&<Loader2
      className="text-customTeal
      animate-spin
@@ -221,7 +188,7 @@ fetchData(undefined,undefined);
     } ,
     cell:({row})=>{
      const {AttendanceDate}=useTeacherAttendanceDateState()
-  const [departure,setDeparture]=useState<string>("");
+  const [departure,setDeparture]=useState<string>(row.original.departure);
  const [loading,setLoading]=useState(false);
       const fetchData=()=>{
         setLoading(true);
@@ -229,8 +196,8 @@ fetchData(undefined,undefined);
          TeacherId:row.original.id,
          arrival:"",
          departure:departure,
-         clerkId:row.original.clerkId,
-         date:AttendanceDate,
+         clerkId:row.original.teacher.clerkId,
+         date:row.original.date,
        }).then((res)=>{
          console.log("the response",res.data);
     setDeparture(res.data.departure)
@@ -241,20 +208,9 @@ fetchData(undefined,undefined);
         setLoading(false);
        })
      }
-     const {ref}=useInView({
-       triggerOnce:true,
-       threshold:0.1,
-       onChange:(inview)=>{
-         if(inview){
-           fetchData();
-         }
-       }
-     })
      
-     useEffect(()=>{
-      fetchData();
-      setDeparture("")
-       },[AttendanceDate])
+     
+      
   
      
  
@@ -262,7 +218,7 @@ fetchData(undefined,undefined);
      className="relative
      flex
      flex-row"
-     ref={ref}>
+      >
      {loading&&<Loader2
      className="text-customTeal
      animate-spin
@@ -280,5 +236,13 @@ fetchData(undefined,undefined);
        key={"nothing"}/>
      </div>
     }
+   },{
+    accessorKey:"date",
+    header:(row)=>(<div
+    className="text-customLight">Date</div>),
+    cell:({row})=>(
+        <div
+        className="text-customLight">{row.original.date}</div>
+    )
    }
    ]

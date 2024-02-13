@@ -72,16 +72,15 @@ export function DataTable<TData, TValue>({
   })
  const filterBtItems=[
 "Name",
-"roll",
+ 
 "date",
-"reason",
-"topic"]
+ ]
 
   return (
     <div
     className="w-full">
-      <div className="flex flex-row
-      gap-x-2 items-center py-4 ">
+        <div className="flex flex-row
+      gap-x-2 items-center py-4 px-2">
         <Input
           placeholder={`Search by ${filter} ...`}
           value={(table.getColumn(filter)?.getFilterValue() as string) ?? ""}
@@ -89,22 +88,27 @@ export function DataTable<TData, TValue>({
             table.getColumn(filter)?.setFilterValue(event.target.value)
           }
           className="max-w-sm
+          bg-customLight
+          text-lg
+          
           focus-within:ring-0
-          focus-within:ring-offset-0
-         focus-visible:ring-0"
+          focus-within:border-none
+          text-customGray
+           "
         />
          
 
          <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button 
-            
-            variant="default" className="ml-auto
-            text-customTeal
-        bg-customDark
-            ">
+            <Button variant="default" className="
+              bg-customDark
+            ml-auto">
               <Filter
-              className="w-6
+              className="
+            
+              text-customTeal
+          
+              w-6
               h-6"/>
             </Button>
           </DropdownMenuTrigger>
@@ -125,38 +129,7 @@ checked={column===filter}
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-
-        {/* the below one is for the columns */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="default" className="ml-auto
-            text-customTeal
-            bg-customDark">
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter(
-                (column) => column.getCanHide()
-              )
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+ 
       </div>
     <div className="rounded-md border
     w-full">
@@ -193,14 +166,10 @@ checked={column===filter}
                   </TableCell>
                 ))}
               </TableRow>
-            ))
+            )) 
           ) : (
-            <TableRow
-            className="text-customLight">
-
-              <TableCell
-              
-              colSpan={columns.length} className="h-24 text-center">
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
                 No results.
               </TableCell>
             </TableRow>
@@ -208,11 +177,11 @@ checked={column===filter}
         </TableBody>
       </Table>
     </div>
-    <div className="flex items-center justify-end space-x-2 py-4">
+    <div className="flex items-center
+     justify-end space-x-2 py-4">
         <Button
         className="text-customTeal
-        bg-customDark
-        "
+        bg-customDark"
           variant="default"
           size="sm"
           onClick={() => table.previousPage()}
@@ -221,8 +190,8 @@ checked={column===filter}
           Previous
         </Button>
         <Button
-        className="text-customTeal
-        bg-customDark"
+className="text-customTeal
+bg-customDark"
           variant="default"
           size="sm"
           onClick={() => table.nextPage()}
@@ -231,6 +200,7 @@ checked={column===filter}
           Next
         </Button>
       </div>
+    
     </div>
   )
 }

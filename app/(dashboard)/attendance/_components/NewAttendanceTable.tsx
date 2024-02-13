@@ -24,17 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Filter } from "lucide-react"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
- 
+import { useState } from "react" 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -80,84 +70,7 @@ export function DataTable<TData, TValue>({
   return (
     <div
     className="w-full">
-      <div className="flex flex-row
-      gap-x-2 items-center py-4 ">
-        <Input
-          placeholder={`Search by ${filter} ...`}
-          value={(table.getColumn(filter)?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn(filter)?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm
-          focus-within:ring-0
-          focus-within:ring-offset-0
-         focus-visible:ring-0"
-        />
-         
-
-         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button 
-            
-            variant="default" className="ml-auto
-            text-customTeal
-        bg-customDark
-            ">
-              <Filter
-              className="w-6
-              h-6"/>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-           <DropdownMenuCheckboxItem>Search by</DropdownMenuCheckboxItem>
-            {
-              filterBtItems.map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column}
-                    className="capitalize"
-onClick={()=>setFilter(column)}
-checked={column===filter}
-                  >
-                    {column}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        {/* the below one is for the columns */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="default" className="ml-auto
-            text-customTeal
-            bg-customDark">
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter(
-                (column) => column.getCanHide()
-              )
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+       
     <div className="rounded-md border
     w-full">
       <Table

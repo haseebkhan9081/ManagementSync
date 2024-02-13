@@ -1,5 +1,5 @@
 "use client"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, Check, Loader2, MoreHorizontal, X } from "lucide-react"
 
 import { Preview } from "@/components/preview"
 import { cn } from "@/lib/utils"
@@ -16,6 +16,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useRouter } from "next/navigation"
+import is from "date-fns/locale/is/index.js"
+import { useState } from "react"
+import axios from "axios"
  
 export type Attendance = {
   id: number,
@@ -27,51 +30,33 @@ leave: Boolean
 topic: String       
 student:   Student 
 studentId: number
-class :    Class 
 classId  : number
 fine  :number
+due :boolean
+  payed :boolean
 }
 
 
 export const columns: ColumnDef<Attendance>[] = [
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const attendance = row.original
-      const router=useRouter();
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-            
-              onClick={()=>{
-
-const parsedDate = parse(attendance.date, 'dd.MM.yyyy', new Date());
-const formattedDate = format(parsedDate, 'yyyy-MM-dd');
-router.push(`/attendance/${attendance.classId}/${encodeURIComponent(formattedDate)}`)
-              }  
-              }  >
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-             </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    }
-  }
-  ,
+ 
+   
   {
     accessorKey:"roll",
-    header:"Roll#",
+    header:(row)=>{
+      return (
+        <div className="flex  text-customLight flex-row gap-x-2 items-center">
+        Roll
+         
+        </div>
+      )
+    },
     accessorFn:(row)=>{
       return row.student.id
+    },
+    cell:({row})=>{
+      return <div
+      className="
+      text-customLight">{row.getValue("roll")}</div>
     },
     enableColumnFilter:true,
     enableGlobalFilter:true,
@@ -80,9 +65,17 @@ router.push(`/attendance/${attendance.classId}/${encodeURIComponent(formattedDat
   ,
   {
     accessorKey: "Name",
-    header: "Name",
+    header: ( )=>{
+return <div
+className="text-customLight">Name</div>
+    },
     accessorFn:(row)=>{
       return row.student.Name
+    },
+    cell:({row})=>{
+      return <div
+      className="
+      text-customLight">{row.getValue("Name")}</div>
     }
     
   },
@@ -92,6 +85,7 @@ router.push(`/attendance/${attendance.classId}/${encodeURIComponent(formattedDat
       return (
         <Button
           variant="ghost"
+          className="text-customLight"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Date
@@ -104,7 +98,8 @@ router.push(`/attendance/${attendance.classId}/${encodeURIComponent(formattedDat
 
        
        
-        return <div>{dateValue}</div>;
+        return <div
+        className="text-customLight">{dateValue}</div>;
       
   }
   },
@@ -117,6 +112,7 @@ router.push(`/attendance/${attendance.classId}/${encodeURIComponent(formattedDat
       return (
         <Button
           variant="ghost"
+          className="text-customLight"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Status
@@ -125,42 +121,122 @@ router.push(`/attendance/${attendance.classId}/${encodeURIComponent(formattedDat
       )
     },
     cell:({row})=>{
-      const isAbsent = row.original.absent;
-      const isPresent = row.original.present;
-      const isLeave = row.original.leave;
-  
+      
+    const updateStatus=(p:boolean,l:boolean,a:boolean)=>{
+     setLoading(true);
+      axios.post("/api/attendance",{
+            topic:row.original.topic,
+            isAbsent:a,
+            isOnLeave:l,
+            fine:row.original.fine,
+            isPresent:p,
+            classId:row.original.classId,
+            id:row.original.studentId,
+            date:row.original.date,
+            reason:row.original.reason,
+            due:row.original.due
+      }).then((res)=>{
+        setIsAbsent(res.data.absent)
+        setIsPresent(res.data.present)
+        setIsLeave(res.data.leave)
+      }).catch((err)=>{
+        console.log("attendance/columns",err)
+      }).finally(()=>{
+        setLoading(false);  
+    })
+    }
+
+      const [isAbsent,setIsAbsent]=useState(row.original.absent);
+      const [isPresent,setIsPresent]=useState(row.original.present);
+      const [isLeave,setIsLeave]=useState(row.original.leave);
+      const [loading,setLoading]=useState(false); 
       const attendanceStatus =
         isAbsent ? 'Absent' : isPresent ? 'Present' : isLeave ? 'Leave' : 'Attendance not marked';
   
-      return <div
-      className={cn(
-        isAbsent&&'text-red-600',
-        isPresent&&'text-green-700',
-        isLeave&&'text-sky-400 '
 
-      )}
-      
-      >{attendanceStatus}</div>;
+
+      return <div
+       
+      ><DropdownMenu
+      >
+<DropdownMenuTrigger
+className={cn('gap-x-2 w-full flex-row flex justify-center items-center',
+  isAbsent ? 'text-red-600' : isPresent ? 'text-green-600' : isLeave ? 'text-sky-600' : 'text-customLight',
+)}
+
+>{loading&&<Loader2
+className="w-4 h-4 animate-spin text-customTeal "
+/>} {attendanceStatus}</DropdownMenuTrigger>
+<DropdownMenuContent
+
+>
+ <DropdownMenuItem
+ onClick={()=>{
+  updateStatus(true,false,false)
+ setIsAbsent(false)
+ setIsPresent(true)
+ setIsLeave(false)
+
+ 
+  
+ }}>Present  </DropdownMenuItem>
+<DropdownMenuItem
+className=" "
+onClick={()=>{
+updateStatus(false, false, true)
+  setIsPresent(false)
+ setIsLeave(false)
+ setIsAbsent(true)
+}}
+>Absent</DropdownMenuItem>
+<DropdownMenuItem
+className=" "
+onClick={()=>{
+  updateStatus(false, true, false)
+  setIsAbsent(false)
+ setIsLeave(false)
+ setIsPresent(true)
+
+   
+ 
+}}
+>Leave</DropdownMenuItem>
+</DropdownMenuContent>
+</DropdownMenu></div>;
     
     }
   }, 
   {
     accessorKey:'reason',
-    header:'Reason'
+    header:()=>(<div
+    className="text-customLight">Reason</div>),
+    cell:({row})=>{
+      return <div
+      className="text-customLight">{row.getValue("reason")}</div>
+    }
+
     
   },
   {
     accessorKey: "topic",
-    header: "Topic",
+    header: ()=>(<div
+    className="text-customLight">Topic</div>),
     cell:({row})=>{
-
-      return <div><Preview
+      return <div
+      className="rounded-lg "><Preview
+      setBlur={()=>{}}
+      
       value={row.getValue("topic")}/></div>
     }
   }, 
   {
     accessorKey:'fine',
-    header:'Fine'
+    header: ()=>(<div
+    className="text-customLight">Fine</div>),
+    cell:({row})=>{
+      return <div
+      className="text-customLight">{row.getValue("fine")}</div>
+    }
     
   },
 ]

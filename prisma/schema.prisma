@@ -2,6 +2,7 @@ datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
+  directUrl = env("DIRECT_DATABASE_URL")
 }
 
 generator client {
@@ -83,7 +84,8 @@ model Class {
   subject   String
   startTime String?
   endTime   String?
-
+passedOut Boolean?
+passedOutDate String?
   // Add more fields as needed
 
   // Define relationships
@@ -94,18 +96,17 @@ model Class {
   Grade      Grade[]
   Average   Average[]
 
-  // Ensure uniqueness based on a combination of subject and class name
-  @@unique([subject, name])
+  
 }
 
 // Define the Attendance model
 model Attendance {
   id      Int     @id @default(autoincrement())
   date    String?
-  present Boolean
-  absent  Boolean
-  leave   Boolean
-  topic   String  @db.LongText()
+  present Boolean?
+  absent  Boolean?
+  leave   Boolean?
+  topic   String?  @db.LongText()
   reason  String? @db.LongText()
   fine Int?
   due Boolean?

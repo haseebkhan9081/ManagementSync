@@ -25,7 +25,8 @@ const Select:React.FC<Selectprops>=({
          
 <ReactSelect
 hideSelectedOptions
-className="w-full"
+className="w-full
+text-customLight"
 isDisabled={disabled}
 value={value}
 //@ts-ignore

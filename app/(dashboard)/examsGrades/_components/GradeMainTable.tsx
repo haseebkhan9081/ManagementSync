@@ -10,20 +10,10 @@ import { format, formatDistance } from "date-fns";
 
  
 interface MainTableProps{
-  sections: (Class&{
-    students:Student[];
-          attendence:(Attendance&{
-            student:Student;
-            class:Class;
-          })[];
-          Grade:(Grade&{
-            class:Class,
-            student:Student
-          })[];
-  })[]|[];
+   
 }
 const GradeMainTable:React.FC<MainTableProps>=({
-    sections
+     
 })=> {
   const [classId,setClassId]=useState<Record<string,any>>({value:0,label:"Please Select a Section to view grades"})
  

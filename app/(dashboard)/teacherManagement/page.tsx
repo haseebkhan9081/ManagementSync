@@ -4,10 +4,12 @@ import { Transition } from "@headlessui/react";
 import { Class, Teacher, TeacherAttendance } from "@prisma/client";
 import axios from "axios";
 import { Loader2, PlusCircle, ScrollText } from "lucide-react";
-import { Suspense, lazy, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer"; 
 import { FadeIn } from "../_components/FadeIn";
 import { Button } from "@/components/ui/button";
+import { useTeacherAttendanceDateState } from "@/app/hooks/useTeacherAttendanceDate";
+import { format } from "date-fns";
 const NewAttendance=lazy(()=>import("./_components/NewAttendance").then((module)=>({default:module?.NewAttendance})));
 const TeacherBox= lazy(()=>import("./_components/TeacherBox").then((module)=>({default:module.TeacherBox})));
 const AllAtendance=lazy(()=>import("./_components/AllAtendance").then((module)=>({default:module?.AllAtendance})))
@@ -30,7 +32,13 @@ axios.get("/api/teacher/all").then((res)=>{
 })
 
 }
-
+const {setAttendanceDate}=useTeacherAttendanceDateState(
+  
+    )
+     
+    useEffect(()=>{
+  setAttendanceDate(format(new Date,'dd.MM.yyyy'))
+    },[])
 const {ref}=useInView({
     threshold:0.1,
     triggerOnce:true,
@@ -53,7 +61,7 @@ const [attendance,setAttendance]=useState(false);
   className="flex
   flex-col
   items-center
-  
+  text-customTeal
   justify-center
   w-full">
     <Loader2

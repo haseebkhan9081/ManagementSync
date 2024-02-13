@@ -4,11 +4,12 @@ import { parse } from "date-fns";
  
 import { NextResponse } from "next/server";
 
+
 export async function POST(req:Request){
 
 try{
 const {
-    topic,
+            topic,
             isAbsent,
             isOnLeave,
             fine,
@@ -39,26 +40,48 @@ const ifExists=await client.attendance.findUnique({
 });
 
 if(ifExists){
+ 
+if(isAbsent||isPresent||isOnLeave){
     const updated=await client.attendance.update({
         where:{
-            studentId_classId_date:{
-                studentId: id,
-                classId: classId, 
-                date:date
-            },
-            
+          id:ifExists.id,  
         },
         data:{
+            absent:isAbsent,
             present:isPresent,
-absent:isAbsent,
-leave:isOnLeave,
-topic:topic,
-fine:fine,
-date:date,
-reason:reason,
-due:due
+            leave:isOnLeave,
         }
     })
+}else if(fine){
+    const updated=await client.attendance.update({
+        where:{
+          id:ifExists.id,
+        },
+        data:{
+            fine:fine,
+        }
+    })
+}else if(reason){
+    const updated=await client.attendance.update({
+        where:{
+          id:ifExists.id,
+        },
+        data:{
+            reason:reason,
+        }
+    })
+}else if(due){
+    const updated=await client.attendance.update({
+        where:{
+          id:ifExists.id,
+        },
+        data:{
+            due:due,
+        }
+    })
+}
+
+     
 
     const all=await client.attendance.count({
         where:{
@@ -154,7 +177,7 @@ due:due
 }
 
 
-
+console.log("current date",date);
 const newAttendence=await client.attendance.create({
     data:{
         studentId:id,

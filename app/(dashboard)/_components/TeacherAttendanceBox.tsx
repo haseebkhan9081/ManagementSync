@@ -144,7 +144,7 @@ gap-x-1'>
             trailColor:'#222831'
         })}
         value={(present/total)*100}
-       text={`${(present/total)*100}%`}
+       text={`${((present/total)*100).toFixed(2)}%`}
         className='text-customTeal'
         />
     </div>
