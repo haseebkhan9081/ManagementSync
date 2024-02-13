@@ -72,7 +72,7 @@ cell:({row})=>{
         </div>
       )
     }
-    ,cell:({row})=>{
+    ,cell:function Cell({row}){
       const {Topic,classId,date,reasonId}=useAttendanceData();
      const [isAbsent,setIsAbsent]=useState(false);
      const [isPresent,setIsPresent]=useState(false);
@@ -222,7 +222,7 @@ onClick={()=>{
         </div>
       )
     },
-    cell:({row})=>{
+    cell:function Cell({row}){
 const {date,classId,setReasonId}=useAttendanceData()
 const [reason,setReason]=useState<string|null>("");
 const [loading,setLoading]=useState(false);

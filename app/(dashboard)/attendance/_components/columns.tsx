@@ -122,7 +122,7 @@ className="text-customLight">Name</div>
         </Button>
       )
     },
-    cell:({row})=>{
+    cell:function Cell({row}){
       
     const updateStatus=(p:boolean,l:boolean,a:boolean)=>{
      setLoading(true);
