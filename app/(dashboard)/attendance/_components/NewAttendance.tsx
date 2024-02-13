@@ -12,7 +12,7 @@ import { useMyInfo } from '@/app/hooks/usemyInfo'
 import DatePicker from '@/components/datePicker'
 const DataTable=lazy(()=>import('./NewAttendanceTable').then((module)=>({default:module.DataTable})))
 export const NewAttendance = () => {
-const {setTopic,Topic,sections,date,setDate,setClassId}=useAttendanceData();
+const {setTopic,Topic,sections,date,setDate,loading,setClassId}=useAttendanceData();
 const [blur,setBlur]=useState(false);
 const [classId,setClasId]=useState<Record<string,any>>({value:0,label:"please select a section to mark attendance"})
 const [students,setStudents]=useState<Student[]>([]); 
@@ -40,7 +40,7 @@ const st=filter?.filter((section)=>section?.id===classId?.value)?.[0]?.students;
       flex
       flex-col
       mb-4
-      z-50'>{sections.length===0&&<div>loading...</div>}
+      z-50'>{loading&&<div>loading...</div>}
        <div>
         <Select
       value={classId}
