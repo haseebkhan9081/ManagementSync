@@ -1,6 +1,5 @@
 import client from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs";
-import { DevBundlerService } from "next/dist/server/lib/dev-bundler-service";
+import { auth } from "@clerk/nextjs"; 
 import { NextResponse } from "next/server";
 
 
@@ -39,11 +38,12 @@ export async function GET(req: Request,
         }
       });
   
-      if (!student) {
-        return new NextResponse("not found", { status: 404 });
+      if (student) {
+
+      return NextResponse.json(student);
       }
   
-      return NextResponse.json(student);
+      return new NextResponse("not found", { status: 404 });
     } catch (err) {
       console.log("[ERROR api/student/[studentid] - GET]", err);
       return new NextResponse("Internal Server error", { status: 500 });
