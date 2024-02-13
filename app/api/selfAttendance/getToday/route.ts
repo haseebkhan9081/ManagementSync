@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import client from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { format } from "date-fns";
@@ -22,7 +23,7 @@ clerkid:userId,
  }) 
  return NextResponse.json(today);
 }catch(err){
-    console.log("[Error management_sync/app/api/selfAttendance/route.ts]",err);
+    console.log("[Error management_sync/app/api/selfAttendance/getToday]",err);
     return new NextResponse("Internal server Error",{status:500});
 }
 }
