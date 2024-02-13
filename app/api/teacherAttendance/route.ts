@@ -95,6 +95,7 @@ else if(arrival?.length>0){
     }) 
 return NextResponse.json(updated);
 }else if(isAbsent||isPresent){
+    console.log("inside the target")
     const updated=await client.teacherAttendance.update({
         where:{
             date_clerkid:{
@@ -119,7 +120,7 @@ const newatt=await client.teacherAttendance.create({
         Arrival:arrival,
         departure:departure,
         date:date,
-        isPresent:false,
+        isPresent:isPresent||false,
         isAbsent:false ,
 
     }
