@@ -67,8 +67,7 @@ return  NextResponse.json({
     leave,
     leaveProfile
 })
-}
-return new NextResponse("not found",{status:404});
+} 
 }catch(err){
     console.log("[Error management_sync/app/api/selfAttendance/route.ts]",err);
     return new NextResponse("Internal server Error",{status:500});

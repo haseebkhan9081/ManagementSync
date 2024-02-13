@@ -33,10 +33,9 @@ export   async function POST(
     connect:sections.map((sect:any)=>({id:sect.value}))
    }
    }});
-   if(newStudent){
+  
    return  NextResponse.json(newStudent);
-   }
-return new NextResponse("Failed to create new Student",{status:403});
+  
 }catch(err:any){
     console.log("[Error at /api/student]",err);
     return new NextResponse("Internal Server Error [api/Student]",{status:500})

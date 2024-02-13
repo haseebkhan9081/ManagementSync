@@ -38,15 +38,12 @@ export async function GET(req: Request,
             grades:true
         }
       });
-  
-      if (student) {
-
+   
       return NextResponse.json(student);
-      }
-  
-      return new NextResponse("not found", { status: 404 });
+   
+   
     } catch (err) {
-      console.log("[ERROR api/student/[studentid] - GET]", err);
+      console.log("[ERROR api/student/[studentid]GET]", err);
       return new NextResponse("Internal Server error", { status: 500 });
     }
   }
