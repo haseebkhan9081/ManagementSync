@@ -24,8 +24,8 @@ export const BarChartAttendance:React.FC<BarChartAttendanceprops> = ({
  
     const filtered:(Class&{
         attendence:Attendance[]
-    })[]=classes.map((cla)=>{
-        const att=cla.attendence.filter((atte)=>{return atte.studentId===id&&atte.date?.endsWith(`.${month.toString().padStart(2, '0')}.${year}`)});
+    })[]=classes?.map((cla)=>{
+        const att=cla?.attendence?.filter((atte)=>{return atte?.studentId===id&&atte?.date?.endsWith(`.${month.toString().padStart(2, '0')}.${year}`)});
   return {
     ...cla,
     attendence:att,
@@ -33,8 +33,8 @@ export const BarChartAttendance:React.FC<BarChartAttendanceprops> = ({
     })
     const filteredyear:(Class&{
       attendence:Attendance[]
-  })[]=classes.map((cla)=>{
-      const att=cla.attendence.filter((atte)=>{return atte.studentId===id});
+  })[]=classes?.map((cla)=>{
+      const att=cla?.attendence?.filter((atte)=>{return atte?.studentId===id});
 return {
   ...cla,
   attendence:att,
@@ -46,15 +46,15 @@ return {
 
 filtered?.map((cla)=>{
 //@ts-ignore
-  if(data[0].name===cla.attendence[cla.attendence.length-1]?.date){
+  if(data[0]?.name===cla?.attendence[cla?.attendence?.length-1]?.date){
     data.push({
       name:cla.attendence[cla.attendence.length-1]?.date,
       [cla.name+" "+cla.subject]:cla.attendence[cla.attendence.length-1]?.AttendancePercent
      })
       }else{
   data[0]={
-   name:cla.attendence[cla.attendence.length-1]?.date,
-   [cla.name+" "+cla.subject]:cla.attendence[cla.attendence.length-1]?.AttendancePercent
+   name:cla?.attendence[cla?.attendence?.length-1]?.date,
+   [cla?.name+" "+cla?.subject]:cla?.attendence[cla?.attendence?.length-1]?.AttendancePercent
   }}
 }) 
       console.log(data);
@@ -92,11 +92,11 @@ className={""}
           
           <Tooltip    />
           <Legend />
-            {filtered.map((cla,index)=>{
-color[index]=colorScale(cla.name+" "+cla.subject) as string
+            {filtered?.map((cla,index)=>{
+color[index]=colorScale(cla?.name+" "+cla?.subject) as string
 return <Bar 
 key={index}
-dataKey={cla.name+" "+cla.subject} fill={colorScale(cla.name+" "+cla.subject) as string} textAnchor='hi'>
+dataKey={cla?.name+" "+cla?.subject} fill={colorScale(cla?.name+" "+cla?.subject) as string} textAnchor='hi'>
  
             </Bar>
 })}
@@ -105,7 +105,7 @@ dataKey={cla.name+" "+cla.subject} fill={colorScale(cla.name+" "+cla.subject) as
        </ResponsiveContainer>
 
       </div>
-      {filtered.length>0?(<AttendanceSummarization 
+      {filtered?.length>0?(<AttendanceSummarization 
       classesYear={filteredyear}
       color={color}
       year={year}
