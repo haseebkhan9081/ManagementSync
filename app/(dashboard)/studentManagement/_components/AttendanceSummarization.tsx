@@ -131,7 +131,7 @@ show={tap}>
                 key={index}
                 style={{
                     color:color[index]
-                }}>{cla.attendence[cla.attendence.length-1].countofLeavesYear}</div>
+                }}>{cla?.attendence[cla?.attendence?.length-1]?.countofLeavesYear||0}</div>
             ))
          }</div>
   <div
@@ -139,12 +139,12 @@ show={tap}>
          flex
          text-lg
          flex-row gap-x-6'>Total Absents:{
-            classesYear.map((cla,index)=>(
+            classesYear?.map((cla,index)=>(
                 <div
                 key={index}
                 style={{
                     color:color[index]
-                }}>{cla.attendence[cla.attendence.length-1].countOfAbsentsYear}</div>
+                }}>{cla.attendence[cla.attendence.length-1]?.countOfAbsentsYear||0}</div>
             ))
          }</div>
  <div

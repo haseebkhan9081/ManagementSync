@@ -140,7 +140,7 @@ text-slate-800
     <AlertDialogFooter className="flex flex-row justify-between items-center">
       <AlertDialogCancel>Cancel</AlertDialogCancel>
       <AlertDialogAction 
-      disabled={!admin}
+      
       onClick={onClick} >Save Changes
       </AlertDialogAction>
     </AlertDialogFooter>

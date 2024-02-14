@@ -94,7 +94,7 @@ else if(arrival?.length>0){
         }
     }) 
 return NextResponse.json(updated);
-}else if(isAbsent||isPresent){
+}else if(isAbsent!=undefined||isPresent!=undefined){
     console.log("inside the target")
     const updated=await client.teacherAttendance.update({
         where:{
@@ -104,8 +104,8 @@ return NextResponse.json(updated);
             }
         },
         data:{
-     isAbsent,
-     isPresent
+     isAbsent:isAbsent||false,
+     isPresent:isPresent||false,
         }
     }) 
 return NextResponse.json(updated);
@@ -120,8 +120,8 @@ const newatt=await client.teacherAttendance.create({
         Arrival:arrival,
         departure:departure,
         date:date,
-        isPresent:isPresent||false,
-        isAbsent:false ,
+        isPresent:true,
+        isAbsent:false,
 
     }
 })

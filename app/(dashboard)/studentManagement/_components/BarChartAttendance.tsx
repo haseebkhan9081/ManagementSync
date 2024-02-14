@@ -106,10 +106,11 @@ dataKey={cla?.name+" "+cla?.subject} fill={colorScale(cla?.name+" "+cla?.subject
 
       </div>
       {filtered?.length>0?(<AttendanceSummarization 
-      classesYear={filteredyear}
+      classesYear={filteredyear||[]}
       color={color}
       year={year}
-      classes={filtered}/>):(<div
+      classes={filtered||[]}/>)
+      :(<div
       className='flex
       flex-col
       w-full

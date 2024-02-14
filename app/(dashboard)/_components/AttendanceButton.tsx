@@ -4,7 +4,8 @@ import axios from 'axios';
 import { AlarmClockCheck, AlarmClockOff, AlertTriangle, Check, CheckCircle2, Clock10Icon, CrossIcon, Dot, Loader2, X } from 'lucide-react'
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react'
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
+ 
 interface AttendanceButtonProps{
   id: number;
   isPresent: boolean;
@@ -132,7 +133,7 @@ const AttendanceButton:React.FC<AttendanceButtonProps>=({
         return deg * (Math.PI / 180);
       }
       useEffect(()=>{
-if(distance<=0.05){
+if(distance<=0.25){
     setInRange(true)
 
 }else{
@@ -141,7 +142,7 @@ if(distance<=0.05){
       },[distance,calculateDistance])
  const hadleClockIn=()=>{
   if(!inRange){
-    toast.error("You are not in range to Clock-in");
+    toast.error("You are out of range");
     return ;
   }
 setIsSubmitting(true);
