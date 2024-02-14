@@ -18,6 +18,7 @@ export default  function Home(){
   axios.get("/api/user/create").then((res)=>{
     toast.success("loged in");
   setUser(res.data?.admin,res.data?.teacher,res.data?.visitor,res.data?.clerkId)
+ fetchInfo();
   }).catch((err)=>{
     toast.error("user not created");
   })
