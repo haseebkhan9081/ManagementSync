@@ -18,13 +18,13 @@ export const GradesTab:React.FC<GradesTabProps> = ({
     const [gSection,setGSection]=useState(0);
     const currentMonth=today.getMonth()+1;
     const filterBtItems:{value:number,label:string}[] = [];
-      profile?.classes.map((cla,index:number)=>(
+      profile?.classes?.map((cla,index:number)=>(
         filterBtItems.push({
             value:index,
             label:cla?.name+" "+cla?.subject
         })
       ))
-    const thisMonthGrades=profile?.classes[gSection]?.Grade?.filter((g)=>(g.Date.endsWith(`.${currentMonth.toString().padStart(2, '0')}.${currentYear}`)))     
+    const thisMonthGrades=profile?.classes?.[gSection]?.Grade?.filter((g)=>(g.Date.endsWith(`.${currentMonth.toString().padStart(2, '0')}.${currentYear}`)))     
   console.log(thisMonthGrades);
     return (
     <div
@@ -72,7 +72,7 @@ export const GradesTab:React.FC<GradesTabProps> = ({
           <DropdownMenuContent side='right' align="end">
            <DropdownMenuCheckboxItem>Select a Section</DropdownMenuCheckboxItem>
             {
-              filterBtItems.map((section) => {
+              filterBtItems?.map((section) => {
                 return (
                   <DropdownMenuCheckboxItem
                     key={section.value}
@@ -100,7 +100,7 @@ checked={section.value===gSection}
       <div>loading...</div>
     }>
       <LineChartGrades
-      Grade={profile?.classes[gSection]?.Grade}
+      Grade={profile?.classes?.[gSection]?.Grade}
       id={profile?.id}
       /> 
     </Suspense>
