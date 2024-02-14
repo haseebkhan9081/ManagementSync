@@ -101,7 +101,7 @@ checked={month.value===gmonth}
       month={gmonth}
       year={currentYear}
       id={profile?.id!}
-      classes={profile?.classes!}
+      classes={profile?.classes||[]}
       />
     </Suspense>
      
